@@ -1,8 +1,8 @@
 <template>
   <div :class="$style.card">
     <div :class="$style['title-box']">
-      <i :class="$style['title-edit-icon']" @click="focus"> edit </i>
       <input :class="$style.title" ref="qTitle" placeholder="Title" v-model="question.title"/>
+      <i :class="$style['title-edit-icon']" @click="focus"> edit </i>
     </div>
 
     <transition name="fade">
@@ -22,6 +22,12 @@
           <div :class="$style['req-text']"> required : </div>
           <input type="checkbox" v-model="question.required"/>
         </div>
+
+        <div :class="$style.splitter"/>
+
+        <div :class="$style.actions">
+          <i :class="$style.arrow"> delete </i>
+        </div>
       </div>
     </transition>
   </div>
@@ -31,7 +37,7 @@
 
   //components
   import TypePicker from '../helper/component/TypePicker'
-  import Choices from './Choices'
+  import Choices from './Choices/Choices'
 
   export default {
     name: 'Question',
@@ -70,17 +76,16 @@
   .title-box {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: space-between;
     padding: 15px;
   }
 
   .title {
-    margin: 0 0 0 5px;
-    border: none;
+    border-bottom: 1px #367edb solid;
     border-color: #68686800;
     color: #6b6b6b;
-    padding-left: 5px; 
-    width: 200px;
+    margin-left: 5px; 
+    width: 230px;
     font-size: 20px;
     -webkit-transition: border-color 0.2s ease-in-out;
     transition: border-color 0.2s ease-in-out;
@@ -97,7 +102,7 @@
   }
 
   .title-edit-icon {
-    margin: 0 0 0 0;
+    margin-right: 5px;
     font-size: 20px;
     color: #2868bb;
   }
@@ -111,6 +116,17 @@
     display: flex;
     align-items: center;
     padding: 15px;
+  }
+
+  .actions {
+    height: 8px;
+    display: flex;
+    align-items: center;
+    padding: 15px;
+  }
+
+  .arrow {
+    color: rgb(94, 94, 94);
   }
 
   .splitter {

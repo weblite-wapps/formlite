@@ -15,7 +15,7 @@ import Questions from './components/Questions'
 // helper
 import webliteHandler from './helper/function/weblite.api'
 // R && W
-const { W, R } = window
+const { W } = window
 
 export default {
   name: 'App',
@@ -38,7 +38,12 @@ export default {
       title: 'question 2',
       type: 'checkbox',
       required: true,
-      choices: ['choice1', 'choice2']
+      choices: ['choice1', 'choice2', 'choice3']
+    }, {
+      title: 'question 3',
+      type: 'radio',
+      required: false,
+      choices: ['yes', 'no']
     }, {
       title: 'question 3',
       type: 'radio',
@@ -83,7 +88,7 @@ export default {
 }
 
 .splitter {
-  margin: 0px 20px 15px 20px;
+  margin: 0px 20px 2px 20px;
   border-bottom: 1px solid rgba(99, 99, 99, 0.418);
 }
 

@@ -41,7 +41,15 @@
 <style module>
 
 .questions {
-  padding: 10px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 20px 20px;
+  overflow-y: auto;
+
+}
+
+::-webkit-scrollbar {
+  display: none;
 }
 
 </style>

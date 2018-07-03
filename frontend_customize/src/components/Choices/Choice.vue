@@ -1,15 +1,22 @@
 <template>
   <div :class="$style.choice">
+    <i :class="$style.edit" @click="$refs.in.focus()"> edit </i>
+
     <div 
       :class="$style.icon"
+      @click="$refs.in.focus()"
       :style="{'border-radius': (this.type == 'radio') ? '10px' : '4px'}"/>
+
     <input :class="$style.input" placeholder="choice"
       :value="title"
       @input="$emit('input',$event.target.value)"
       ref="in"/>
 
-    <i :class="$style.edit" @click="$refs.in.focus()"> edit </i>
-    <i :class="$style.delete" @click="$emit('choice-delete', index)"> delete </i>
+    <i 
+      :class="$style.delete" 
+      v-if="canBeRemoved"
+      @click="$emit('choice-delete', index)"
+    > delete </i>
   </div>
 </template>
 
@@ -26,7 +33,8 @@
     props:{
       title: String,
       type: String,
-      index: Number
+      index: Number,
+      canBeRemoved: Boolean
     },
 
     data() {
@@ -74,11 +82,11 @@
 }
 
 .delete, .edit {
-  color: #575757;
+  color: #636363;
   font-size: 20px;
 }
 
 .edit {
-  margin-right: 5px;
+  margin-right: 7px;
 }
 </style>
