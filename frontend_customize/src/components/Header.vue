@@ -33,6 +33,7 @@
 <style module>
   .root {
     width: 100%;
+    min-height: 60px;
     height: 60px;
     display: flex;
     align-items: center;

@@ -1,8 +1,7 @@
 <template>
 <div :class="$style.root">
   <Header :title="wappTitle" />
-  <div :class="$style.formTitle"> {{formTitle}} </div>
-  <div :class="$style.splitter" />
+  <FormHeader :formTitle="formTitle"/>
   <Questions :questions="questions"/>
 </div>
 </template>
@@ -12,6 +11,7 @@
 // components
 import Header from './components/Header'
 import Questions from './components/Questions'
+import FormHeader from './components/FormHeader'
 // helper
 import webliteHandler from './helper/function/weblite.api'
 // R && W
@@ -22,34 +22,15 @@ export default {
 
   components: {
     Header,
-    Questions
+    Questions,
+    FormHeader
   },
 
   data: () => ({
     wappTitle: 'Formlite',
     formTitle: 'form title goes here ...',
     name: '',
-    questions: [{
-      title: 'question 1',
-      type: 'text',
-      required: true,
-      choices: []
-    }, {
-      title: 'question 2',
-      type: 'checkbox',
-      required: true,
-      choices: ['choice1', 'choice2', 'choice3']
-    }, {
-      title: 'question 3',
-      type: 'radio',
-      required: false,
-      choices: ['yes', 'no']
-    }, {
-      title: 'question 3',
-      type: 'radio',
-      required: false,
-      choices: ['yes', 'no']
-    }]
+    questions: []
   }),
 
   created() { 

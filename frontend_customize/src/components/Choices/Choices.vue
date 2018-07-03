@@ -44,7 +44,7 @@
       },
       
       addChoice() {
-        this.question.choices.push("new choice")
+        this.question.choices.push("")
       }
     },
 

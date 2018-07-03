@@ -9,7 +9,7 @@
 <script>
 
   export default {
-    name: 'Choice',
+    name: 'AddChoice',
 
     props:{
       
@@ -33,8 +33,6 @@
 }
 
 .addChoice:hover {
-  display: flex;
-  align-items: center;
   background: rgba(216, 216, 216, 0.336);
 }
 
@@ -44,6 +42,7 @@
 
 .text {
   margin-left: 10px;
-  color: rgb(95, 95, 95);
+  color: rgba(95, 95, 95, 0.829);
+  font-size: 16px;
 }
 </style>

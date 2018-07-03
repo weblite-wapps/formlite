@@ -39,6 +39,7 @@
   .text {
     color: #686868;
     display: inline;
+    cursor: default;
   }
 
   .select-type {
