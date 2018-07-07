@@ -5,6 +5,7 @@
       :questions="questions"
       :answers="answers"
       :curQuestion="curQuestion"/>
+    <SnackBar/>
     <Actions
       :length="questions.length"
       :curIndex="curQuestion"
@@ -22,10 +23,14 @@
 import Header from './components/Header'
 import Questions from './components/Questions'
 import Actions from './components/Actions'
+import SnackBar from './helper/component/SnackBar'
 // helper
 import webliteHandler from './helper/function/weblite.api'
+import requests from './helper/function/handleRequests'
 // R && W
 const { R, W } = window
+
+import bus from './helper/function/bus'
 
 export default {
   name: 'App',
@@ -33,11 +38,15 @@ export default {
   components: {
     Header,
     Questions,
-    Actions
+    Actions,
+    SnackBar
   },
 
   data: () => ({
     name: '',
+    userId: 0,
+    wisId: 0,
+    creator: false,
     formTitle: 'form title goes here ...',
     questions: [{
       title: 'question 1',
@@ -46,17 +55,17 @@ export default {
       choices: ['choice1', 'choice2', 'choice3']
     }, {
       title: 'question 2',
-      required: false,
+      required: true,
       type: 'text',
       choices: []
     }, {
       title: 'question 3',
-      required: true,
+      required: false,
       type: 'toggle',
       choices: []
     }, {
       title: 'question 4',
-      required: false,
+      required: true,
       type: 'radio',
       choices: ['choice1', 'choice2', 'choice3']
     }],
@@ -70,19 +79,34 @@ export default {
   },
 
   created() {
-    var fn = q => {
+    if (this.creator) {
+
+    } else {
+      R.forEach(q => {
       if (q.type == 'checkbox')
         this.answers.push([])
       else 
         this.answers.push('')
+    }, this.questions)
     }
-
-    R.forEach(fn, this.questions)
   },
 
   methods: {
     submit() {
-      console.log(this.answers)
+      let valid = true
+      for (let i = 0; i < this.questions.length; i++) {
+        if (this.questions[i].required) {
+          if ((this.questions[i].type == 'radio' || this.questions[i].type == 'text') && this.answers[i] == '') {
+            valid = false;
+            break;
+          }
+        }
+      }
+      if (!valid)
+        bus.$emit('show-message', 'please answer all the requirements ...')
+      else {
+        requests.postAnswers(this.name, this.userId, this.wisId, this.answers)
+      }
     }
   }
 }
@@ -94,6 +118,7 @@ export default {
   position: relative;
   width: 350px;
   min-height: 450px;
+  max-height: 450px;
   display: flex;
   flex-direction: column;
   border: 1px #E0E0E0 solid;

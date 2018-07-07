@@ -17,8 +17,6 @@
 
 <script>
 
-import bus from '../helper/function/bus'
-
 export default {
   name: 'Actions',
 
