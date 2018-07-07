@@ -1,0 +1,117 @@
+<template>
+  <!-- <div 
+    :class="$style.root" 
+    :style="{'border-color': (checked) ? '#3b74a3' : '#8d8d8d'}"
+    @click="onClick">
+    <transition name="fade">
+      <i :class="$style.mark" v-if="checked"> done </i>
+    </transition>
+  </div> -->
+  <div :class="$style.root">
+    <input @click="onClick" type="checkbox" id="id-name--1" :class="$style['switch-input']" v-model="checked">
+    <label for="id-name--1" :class="$style['switch-label']">
+      <span :class="$style['toggle--on']"/>
+      <span :class="$style['toggle--off']"/>
+    </label>
+  </div>
+</template>
+
+<script>
+
+  export default {
+    name: 'Toggle',
+
+    props:{
+      checkedInit: Boolean
+    },
+
+    data() {
+      return {
+        checked: this.checkedInit
+      }
+    },
+
+    methods: {
+      onClick() {
+        this.$emit('click', !this.checked)
+      }
+    }
+  }
+</script>
+
+<style module>
+
+@import url(https://fonts.googleapis.com/css?family=Roboto:300,500);
+
+.root {
+  width: 14px;
+  height: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.switch-input {
+  display: none;
+}
+
+.switch-label {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  font-weight: 500;
+  text-align: left;
+  margin: 16px;
+  padding: 16px 10px 16px 44px;
+}
+.switch-label:before, .switch-label:after {
+  content: "";
+  position: absolute;
+  margin: 0;
+  outline: 0;
+  top: 50%;
+  -ms-transform: translate(0, -50%);
+  -webkit-transform: translate(0, -50%);
+  transform: translate(0, -50%);
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+.switch-label:before {
+  left: 1px;
+  width: 34px;
+  height: 14px;
+  background-color: #9E9E9E;
+  border-radius: 8px;
+}
+.switch-label:after {
+  left: 0;
+  width: 20px;
+  height: 20px;
+  background-color: #FAFAFA;
+  border-radius: 50%;
+  box-shadow: 0 1px 2px 2px rgba(0, 0, 0, 0.14), 0 2px 2px 0 rgba(0, 0, 0, 0.098), 0 1px 5px 0 rgba(0, 0, 0, 0.084);
+}
+.switch-label .toggle--on {
+  display: none;
+}
+.switch-label .toggle--off {
+  display: inline-block;
+}
+.switch-input:checked + .switch-label:before {
+  background-color: #A5D6A7;
+}
+.switch-input:checked + .switch-label:after {
+  background-color: #4CAF50;
+  -ms-transform: translate(80%, -50%);
+  -webkit-transform: translate(80%, -50%);
+  transform: translate(80%, -50%);
+}
+.switch-input:checked + .switch-label .toggle--on {
+  display: inline-block;
+}
+.switch-input:checked + .switch-label .toggle--off {
+  display: none;
+}
+
+</style>
