@@ -71,3 +71,14 @@
   opacity: 0;
   transform: translateX(-300px);
 }
+
+/* action bar */
+
+.action-enter-active, .action-leave-active {
+  transition: all 1s;
+}
+
+.action-leave-to {
+  opacity: 0;
+  transform: translateY(300px);
+}

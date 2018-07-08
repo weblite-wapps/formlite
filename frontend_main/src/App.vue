@@ -4,16 +4,23 @@
     <Questions 
       :questions="questions"
       :answers="answers"
-      :curQuestion="curQuestion"/>
+      :curQuestion="curQuestion"
+      v-if="!reviewing"/>
     <SnackBar/>
     <Actions
       :length="questions.length"
       :curIndex="curQuestion"
+      v-if="!reviewing"
       @next-hover="transition='nextlist'"
       @prev-hover="transition='prevlist'"
       @next="curQuestion++"
       @prev="curQuestion--"
       @submit="submit"/>
+    <Reviews
+      v-if="reviewing"
+      :creator="creator"
+      :peopleData="peopleData"
+      :questions="questions"/>
   </div>
 </template>
 
@@ -24,6 +31,7 @@ import Header from './components/Header'
 import Questions from './components/Questions'
 import Actions from './components/Actions'
 import SnackBar from './helper/component/SnackBar'
+import Reviews from './components/Review/Reviews'
 // helper
 import webliteHandler from './helper/function/weblite.api'
 import requests from './helper/function/handleRequests'
@@ -39,23 +47,25 @@ export default {
     Header,
     Questions,
     Actions,
-    SnackBar
+    SnackBar,
+    Reviews
   },
 
   data: () => ({
     name: '',
-    userId: 0,
-    wisId: 0,
+    userId: 1,
+    wisId: 1001,
     creator: false,
     formTitle: 'form title goes here ...',
+
     questions: [{
       title: 'question 1',
-      required: true,
+      required: false,
       type: 'checkbox',
       choices: ['choice1', 'choice2', 'choice3']
     }, {
       title: 'question 2',
-      required: true,
+      required: false,
       type: 'text',
       choices: []
     }, {
@@ -65,22 +75,45 @@ export default {
       choices: []
     }, {
       title: 'question 4',
-      required: true,
+      required: false,
       type: 'radio',
       choices: ['choice1', 'choice2', 'choice3']
     }],
+
+    reviewing: false,
+
+    // Answering the form
+
     answers: [],
     curQuestion: 0,
-    transition: 'nextlist'
+    transition: 'nextlist',
+
+    // Reviewing 
+
+    peopleData: [{
+      username: 'mamad',
+      userId: 1,
+      wisId: 1001,
+      answers: [['choice1', 'choice3'], 'some mamad answer ...', 'yes', 'choice2']
+    }, {
+      username: 'ali',
+      userId: 2,
+      wisId: 1001,
+      answers: [['choice2'], 'some ali text answer ...', '', 'choice1']
+    }, {
+      username: 'reza',
+      userId: 3,
+      wisId: 1001,
+      answers: [['choice2', 'choice3'], 'some reza answer ...', 'yes', 'choice3']
+    }]
+
   }),
 
   created() {
     W && webliteHandler(this) 
-  },
 
-  created() {
     if (this.creator) {
-
+      this.reviewing = true;
     } else {
       R.forEach(q => {
       if (q.type == 'checkbox')
@@ -105,7 +138,16 @@ export default {
       if (!valid)
         bus.$emit('show-message', 'please answer all the requirements ...')
       else {
-        requests.postAnswers(this.name, this.userId, this.wisId, this.answers)
+        requests.postAnswers(this.name, this.userId, this.wisId, this.answers).then(result => {
+          this.peopleData = [{
+            username: this.name,
+            userId: this.userId,
+            wisId: this.wisId,
+            answers: this.answers
+          }]
+          this.reviewing = true
+          bus.$emit('show-message', 'submitted ...')
+        })
       }
     }
   }

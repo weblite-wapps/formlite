@@ -39,6 +39,7 @@ export default {
     })
   }
 }
+
 </script>
 
 
@@ -49,7 +50,7 @@ export default {
   background-color: #ffffff;
   box-shadow: 0px -1px 10px 0px rgba(80, 80, 80, 0.219);
   position: absolute;
-  bottom: 49px;
+  top: 50px;
   width: inherit;
 }
 

@@ -1,17 +1,19 @@
 <template>
-  <div :class="$style.root">
-    <div :class="prevStyle" 
-      @mouseenter="$emit('prev-hover')"
-      @click="onPrev"> Prev </div>
-    <div :class="$style.text"> {{curIndex + 1}} / {{length}} </div>
-    <div :class="$style.next" 
-      @click="$emit('next')" 
-      @mouseenter="$emit('next-hover')"
-      v-if="!isLast"> Next </div>
-    <div :class="$style.submit" 
-      @click="$emit('submit')" 
-      v-if="isLast"> Submit </div>
-  </div>
+  <transition name="action">
+    <div :class="$style.root">
+      <div :class="prevStyle" 
+        @mouseenter="$emit('prev-hover')"
+        @click="onPrev"> Prev </div>
+      <div :class="$style.text"> {{curIndex + 1}} / {{length}} </div>
+      <div :class="$style.next" 
+        @click="$emit('next')" 
+        @mouseenter="$emit('next-hover')"
+        v-if="!isLast"> Next </div>
+      <div :class="$style.submit" 
+        @click="$emit('submit')" 
+        v-if="isLast"> Submit </div>
+    </div>
+  </transition>
 </template>
 
 
@@ -62,6 +64,7 @@ export default {
 
 .root {
   padding: 5px;
+  margin-bottom: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
