@@ -90,22 +90,7 @@ export default {
 
     // Reviewing 
 
-    peopleData: [{
-      username: 'mamad',
-      userId: 1,
-      wisId: 1001,
-      answers: [['choice1', 'choice3'], 'some mamad answer ...', 'yes', 'choice2']
-    }, {
-      username: 'ali',
-      userId: 2,
-      wisId: 1001,
-      answers: [['choice2'], 'some ali text answer ...', '', 'choice1']
-    }, {
-      username: 'reza',
-      userId: 3,
-      wisId: 1001,
-      answers: [['choice2', 'choice3'], 'some reza answer ...', 'yes', 'choice3']
-    }]
+    peopleData: []
 
   }),
 
@@ -113,14 +98,38 @@ export default {
     W && webliteHandler(this) 
 
     if (this.creator) {
-      this.reviewing = true;
+      requests.getAllAnswers(this.wisId)
+        .then(res => {
+          this.peopleData = res
+          this.reviewing = true;
+        })
+        .catch(() => {
+          bus.$emit('show-message', 'Error has occured ...')
+        })
     } else {
-      R.forEach(q => {
-      if (q.type == 'checkbox')
-        this.answers.push([])
-      else 
-        this.answers.push('')
-    }, this.questions)
+      requests.getUserAnswers(this.userId, this.wisId)
+        .then(res => {
+          if (res.found) {
+            this.peopleData = [{
+              username: this.name,
+              userId: this.userId,
+              wisId: this.wisId,
+              answers: res.answers
+            }]
+            this.reviewing = true;
+          } else {
+            R.forEach(q => {
+              if (q.type == 'checkbox')
+                this.answers.push([])
+              else 
+                this.answers.push('')
+            }, this.questions)
+            this.reviewing = false;
+          }
+        })
+        .catch(() => {
+          bus.$emit('show-message', 'Error has occured ...')
+        })
     }
   },
 
@@ -138,16 +147,20 @@ export default {
       if (!valid)
         bus.$emit('show-message', 'please answer all the requirements ...')
       else {
-        requests.postAnswers(this.name, this.userId, this.wisId, this.answers).then(result => {
-          this.peopleData = [{
-            username: this.name,
-            userId: this.userId,
-            wisId: this.wisId,
-            answers: this.answers
-          }]
-          this.reviewing = true
-          bus.$emit('show-message', 'submitted ...')
-        })
+        requests.postAnswers(this.name, this.userId, this.wisId, this.answers)
+          .then(() => {
+            this.peopleData = [{
+              username: this.name,
+              userId: this.userId,
+              wisId: this.wisId,
+              answers: this.answers
+            }]
+            this.reviewing = true
+            bus.$emit('show-message', 'Submitted ...')
+          })
+          .catch(() => {
+            bus.$emit('show-message', 'Error has occured ...')
+          })
       }
     }
   }
