@@ -15,8 +15,6 @@
 // components
 import Question from './Question'
 
-import bus from '../helper/function/bus'
-
 export default {
   name: 'Questions',
 

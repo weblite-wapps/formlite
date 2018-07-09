@@ -5,12 +5,13 @@
       :questions="questions"
       :answers="answers"
       :curQuestion="curQuestion"
+      :creator="creator"
       v-if="!reviewing"/>
     <SnackBar/>
     <Actions
       :length="questions.length"
       :curIndex="curQuestion"
-      v-if="!reviewing"
+      v-if="!reviewing && !creator"
       @next-hover="transition='nextlist'"
       @prev-hover="transition='prevlist'"
       @next="curQuestion++"

@@ -28,7 +28,8 @@ export default {
 
   props: {
     length: Number,
-    curIndex: Number
+    curIndex: Number,
+    creator: Boolean
   },
 
   data: () => ({

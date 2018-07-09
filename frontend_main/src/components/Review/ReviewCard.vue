@@ -1,11 +1,9 @@
 <template>
-  <transition name="fade">
-    <div :class="$style.root">
-      <div :class="$style['req-text']" v-if="question.required"> required </div>
-      <div :class="$style.title"> {{question.title}} </div>
-      <div :class="$style.answer"> {{formattedAnswer}} </div> 
-    </div>
-  </transition>
+  <div :class="$style.root">
+    <div :class="$style['req-text']" v-if="question.required"> required </div>
+    <div :class="$style.title"> {{question.title}} </div>
+    <div :class="$style.answer"> {{formattedAnswer}} </div> 
+  </div>
 </template>
 
 <script>

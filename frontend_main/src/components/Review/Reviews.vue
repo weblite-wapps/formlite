@@ -67,7 +67,8 @@ export default {
   .reviews {
     display: flex;
     flex-direction: column;
-    height: 330px;
+    justify-content: flex-start;
+    min-height: 330px;
     padding: 15px 20px 10px;
   }
 

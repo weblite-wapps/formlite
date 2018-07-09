@@ -12,8 +12,6 @@
 
   import Radio from '../helper/component/Radio'
 
-  const { R } = window
-
   export default {
     name: 'RadioChoice',
 
