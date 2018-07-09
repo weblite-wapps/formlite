@@ -66,7 +66,7 @@ export default {
       choices: ['choice1', 'choice2', 'choice3']
     }, {
       title: 'question 2',
-      required: false,
+      required: true,
       type: 'text',
       choices: []
     }, {
@@ -76,7 +76,7 @@ export default {
       choices: []
     }, {
       title: 'question 4',
-      required: false,
+      required: true,
       type: 'radio',
       choices: ['choice1', 'choice2', 'choice3']
     }],
@@ -136,15 +136,13 @@ export default {
 
   methods: {
     submit() {
-      let valid = true
-      for (let i = 0; i < this.questions.length; i++) {
-        if (this.questions[i].required) {
-          if ((this.questions[i].type == 'radio' || this.questions[i].type == 'text') && this.answers[i] == '') {
-            valid = false;
-            break;
-          }
-        }
-      }
+      var valid = true
+      R.forEachObjIndexed((q, i) => {
+        if (q.required)
+          if ((q.type == 'radio' || q.type == 'text') && this.answers[i] == '') 
+            valid = false  
+      }, this.questions)
+
       if (!valid)
         bus.$emit('show-message', 'please answer all the requirements ...')
       else {
