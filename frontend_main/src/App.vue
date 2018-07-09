@@ -53,7 +53,7 @@ export default {
   },
 
   data: () => ({
-    name: '',
+    name: 'mamad',
     userId: 1,
     wisId: 1001,
     creator: false,
