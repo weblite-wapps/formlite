@@ -56,7 +56,7 @@ export default {
     name: 'mamad',
     userId: 1,
     wisId: 1001,
-    creator: false,
+    creator: true,
     formTitle: 'form title goes here ...',
 
     questions: [{

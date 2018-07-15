@@ -1,5 +1,5 @@
 import request from 'superagent'
-const domain = 'http://192.168.43.157:3000/'
+const domain = 'http://localhost:3000/'
 
 export default {
   postAnswers: (username, userId, wisId, answers) => {
