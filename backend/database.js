@@ -28,7 +28,7 @@ exports.getUserAnswer = function(userId, wisId) {
     if (!res) 
       return { found: false, answers: [] }
     else {
-      return { found: true, answers: res.answers }
+      return { found: true, answers: res.answers } 
     }
   })
 }

@@ -7,12 +7,14 @@
       :index="index"
       :arrayLength="questions.length"
       :editChoice="editChoice(index)"
-      @move-up="moveQuestionUp(index)"
-      @move-down="moveQuestionDown(index)"
-      @deleted="deleteQuestion(index)"
-      @changeRequired="changeQuestionRequired(index, !questions[index].required)"
+      :addChoice="addChoice(index)"
+      :deleteChoice="deleteChoice(index)"
+      :moveQuestionUp="moveQuestionUp"
+      :moveQuestionDown="moveQuestionDown"
+      :deleteQuestion="deleteQuestion"
+      :changeQuestionRequired="changeQuestionRequired"
     />
-    <AddQuestion @add-question="addQuestion"/>
+    <AddQuestion :addQuestion="addQuestion"/>
   </div>
 </template>
 
@@ -34,6 +36,8 @@
       questions: Array,
       deleteQuestion: Function,
       editChoice: Function,
+      addChoice: Function,
+      deleteChoice: Function,
       addQuestion: Function,
       changeQuestionRequired: Function,
       moveQuestionUp: Function,

@@ -29,14 +29,6 @@ export default {
     answers: Array,
     editAnswer: Function
   },
-
-  data: () => ({
-
-  }),
-
-  methods: {
-
-  }
 }
 </script>
 

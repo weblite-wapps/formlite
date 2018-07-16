@@ -29,13 +29,9 @@
 
     props:{
       question: Object,
-      editChoice: Function
-    },
-
-    methods: {
-      deleteChoice(index) { this.question.choices.splice(index, 1) },
-
-      addChoice() { this.question.choices.push("") }
+      editChoice: Function,
+      addChoice: Function,
+      deleteChoice: Function
     },
 
     computed: {

@@ -5,11 +5,14 @@
   <Questions
     :questions="questions"
     :editChoice="editQuestionChoice"
+    :addChoice="addQuestionChoice"
+    :deleteChoice="deleteQuestionChoice"
     :addQuestion="addQuestion"
     :changeQuestionRequired="changeQuestionRequired"
     :moveQuestionUp="moveQuestionUp"
     :moveQuestionDown="moveQuestionDown"
-    :deleteQuestion="deleteQuestion"/>
+    :deleteQuestion="deleteQuestion"
+  />
 </div>
 </template>
 
@@ -47,6 +50,24 @@ export default {
     editQuestionChoice(questionIndex) {
       return (choiceIndex, value) => {
         this.questions = R.assocPath([questionIndex, 'choices', choiceIndex], value, this.questions)
+      }
+    },
+
+    deleteQuestionChoice(questionIndex) {
+      return choiceIndex => {
+        this.questions = this.questions.map((question, index) => {
+          if (index != questionIndex) return question
+          return {...question, choices: question.choices.filter((value, index) => index != choiceIndex)}
+        })
+      }
+    },
+
+    addQuestionChoice(questionIndex) {
+      return () => {
+        this.questions = this.questions.map((question, index) => {
+          if (index != questionIndex) return question
+          return {...question, choices: question.choices.concat('')}
+        })
       }
     },
 

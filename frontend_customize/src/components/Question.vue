@@ -16,7 +16,10 @@
         <transition name="fade">
           <Choices
             :question="question"
-            :editChoice="editChoice"/>
+            :editChoice="editChoice"
+            :addChoice="addChoice"
+            :deleteChoice="deleteChoice"
+          />
         </transition>
       </div>
 
@@ -24,17 +27,17 @@
 
       <div :class="$style['properties']">
         <TypePicker :question="question"/>
-        <div :class="$style['req-text']"> required : </div>
+        <div :class="$style['req-text']">required :</div>
         <CheckBox
           :checked="question.required"
-          @click="changeRequired"
+          @click="changeQuestionRequired(index, !question.required)"
         />
       </div>
 
       <div :class="$style.splitter"/>
 
       <div :class="$style.actions">
-        <i :class="$style.delete" @click="deleted"> delete </i>
+        <i :class="$style.delete" @click="deleteQuestion(index)"> delete </i>
         <div :class="$style.arrows">
           <i :class="topArrowStyle" @click="moveUp"> keyboard_arrow_up </i>
           <i :class="downArrowStyle" @click="moveDown"> keyboard_arrow_down </i>
@@ -64,19 +67,21 @@
       question: Object,
       arrayLength: Number,
       index: Number,
-      editChoice: Function
+      editChoice: Function,
+      addChoice: Function,
+      deleteChoice: Function,
+      moveQuestionUp: Function,
+      moveQuestionDown: Function,
+      deleteQuestion: Function,
+      changeQuestionRequired: Function
     },
 
     methods: {
-      changeRequired() { this.$emit('changeRequired') },
-
-      deleted() { this.$emit('deleted') },
-
       focus() { this.$refs.qTitle.focus() },
 
-      moveUp() { if (!this.isTop) this.$emit('move-up') },
+      moveUp() { if (!this.isTop) this.moveQuestionUp(this.index) },
 
-      moveDown() { if (!this.isBottom) this.$emit('move-down') },
+      moveDown() { if (!this.isBottom) this.moveQuestionDown(this.index) },
     },
 
     computed: {

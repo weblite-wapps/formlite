@@ -6,7 +6,6 @@
       :questions="questions"
       :answers="answers"
       :curQuestion="curQuestion"
-      :creator="creator"
       :editAnswer="editAnswer"
       v-if="!reviewing"
     />
@@ -61,19 +60,19 @@ export default {
   },
 
   data: () => ({
-    name: 'ali',
-    userId: 2,
-    wisId: 1003,
+    name: 'mamad',
+    userId: 1,
+    wisId: 1001,
     creator: false,
     formTitle: 'Title',
     questions: [{
       title: 'question 1',
-      required: false,
+      required: true,
       type: 'checkbox',
       choices: ['choice1', 'choice2', 'choice3']
     }, {
       title: 'question 2',
-      required: true,
+      required: false,
       type: 'text',
       choices: []
     }, {
@@ -83,7 +82,7 @@ export default {
       choices: []
     }, {
       title: 'question 4',
-      required: true,
+      required: false,
       type: 'radio',
       choices: ['choice1', 'choice2', 'choice3']
     }],
@@ -133,7 +132,7 @@ export default {
 
     submit() {
       const valid = this.questions.reduce((acc, { required, type }, i) => {
-        if (required && (type == 'radio' || type == 'text') && this.answers[i] == '') return false
+        if (required && (type == 'radio' || type == 'text') && this.answers[i] == '' || type == 'checkbox' && this.answers[i].length == 0) return false
         return acc
       }, true)
 

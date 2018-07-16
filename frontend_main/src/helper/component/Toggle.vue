@@ -1,6 +1,6 @@
 <template>
   <div :class="$style.root">
-    <input @click="onClick" type="checkbox" id="id-name--1" :class="$style['switch-input']" v-model="checked">
+    <input @click="onClick" type="checkbox" id="id-name--1" :class="$style['switch-input']">
     <label for="id-name--1" :class="$style['switch-label']">
       <span :class="$style['toggle--on']"/>
       <span :class="$style['toggle--off']"/>

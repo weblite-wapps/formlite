@@ -1,5 +1,5 @@
 <template>
-  <div :class="$style.card" @click="$emit('add-question')">
+  <div :class="$style.card" @click="addQuestion">
     <i :class="$style.icon"> add </i>
     <div :class="$style.text"> Add question </div>
   </div>
@@ -9,6 +9,8 @@
 <script>
   export default {
     name: 'AddQuestion',
+
+    props: { addQuestion: Function }
   }
 </script>
 

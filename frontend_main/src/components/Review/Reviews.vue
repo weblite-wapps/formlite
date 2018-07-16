@@ -1,7 +1,6 @@
 <template>
   <div :class="$style.root">
     <div :class="$style.reviews" v-if="peopleData.length != 0">
-      <!-- selecting user -->
       <div :class="$style.users" v-if="creator">
         <div :class="$style['select-text']"> User : </div>
         <select :class="$style.select" v-model="currentUser">
@@ -15,7 +14,6 @@
 
       <div :class="$style.splitter" v-if="creator" />
 
-      <!-- answers -->
       <div :class="$style.answers">
         <ReviewCard
           v-for="(q, i) in questions"

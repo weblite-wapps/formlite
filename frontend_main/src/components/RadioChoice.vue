@@ -11,7 +11,6 @@
 
 
 <script>
-
   import Radio from '../helper/component/Radio'
 
   export default {

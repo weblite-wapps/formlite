@@ -27,6 +27,7 @@
         :key="i"
         :answer="answer"
         :title="choice"
+        :questionIndex="index"
         :editAnswer="editAnswer"
       />
 
@@ -34,7 +35,6 @@
         v-if="question.type == 'radio'"
         v-for="(choice, i) in question.choices"
         :key="i"
-        :answer="answer"
         :title="choice"
         :radioIndex="i"
         :selectedRadio="selectedRadio"
