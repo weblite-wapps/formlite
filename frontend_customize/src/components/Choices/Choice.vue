@@ -22,7 +22,6 @@
 
 
 <script>
-
   export default {
     name: 'Choice',
 
@@ -47,7 +46,6 @@
 
 
 <style module>
-
 .choice {
   display: flex;
   margin-bottom: 10px;
@@ -89,5 +87,4 @@
 .edit {
   margin-right: 7px;
 }
-
 </style>

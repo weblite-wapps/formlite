@@ -14,7 +14,7 @@
         v-if="question.type != 'text' && question.type != 'toggle'"
       >
         <transition name="fade">
-          <Choices 
+          <Choices
             :question="question"
             :editChoice="editChoice"/>
         </transition>
@@ -45,11 +45,11 @@
 </template>
 
 <script>
-
   //components
   import TypePicker from '../helper/component/TypePicker'
   import Choices from './Choices/Choices'
   import CheckBox from '../helper/component/CheckBox'
+
 
   export default {
     name: 'Question',

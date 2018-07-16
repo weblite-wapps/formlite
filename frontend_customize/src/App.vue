@@ -51,12 +51,7 @@ export default {
     },
 
     addQuestion() {
-      const newQuestion = {
-        title: '',
-        type: 'text',
-        required: false,
-        choices: []
-      }
+      const newQuestion = { title: '', type: 'text', required: false, choices: [] }
       this.questions = R.append(newQuestion, this.questions)
     },
 
@@ -65,26 +60,22 @@ export default {
     },
 
     moveQuestionUp(index) {
-      const from = this.questions[index]
-      const to = this.questions[index - 1]
       const fromlens = R.lensIndex(index)
       const tolens = R.lensIndex(index - 1)
 
       this.questions = R.pipe(
-        R.set(tolens, from),
-        R.set(fromlens, to)
+        R.set(tolens, this.questions[index]),
+        R.set(fromlens, this.questions[index - 1])
       )(this.questions)
     },
 
     moveQuestionDown(index) {
-      const from = this.questions[index]
-      const to = this.questions[index + 1]
       const fromlens = R.lensIndex(index)
       const tolens = R.lensIndex(index + 1)
 
       this.questions = R.pipe(
-        R.set(tolens, from),
-        R.set(fromlens, to)
+        R.set(tolens, this.questions[index]),
+        R.set(fromlens, this.questions[index + 1])
       )(this.questions)
     }
   },
