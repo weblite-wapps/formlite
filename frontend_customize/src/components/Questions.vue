@@ -10,7 +10,7 @@
       @move-up="moveQuestionUp(index)"
       @move-down="moveQuestionDown(index)"
       @deleted="deleteQuestion(index)"
-      @changeRequired="changeRequired(index, $event)"
+      @changeRequired="changeQuestionRequired(index, $event)"
     />
     <AddQuestion @add-question="addQuestion"/>
   </div>
@@ -32,37 +32,13 @@
 
     props:{
       questions: Array,
-      editChoice: Function
+      deleteQuestion: Function,
+      editChoice: Function,
+      addQuestion: Function,
+      changeQuestionRequired: Function,
+      moveQuestionUp: Function,
+      moveQuestionDown: Function
     },
-
-    methods: {
-      deleteQuestion(index) { this.$emit('delete-question', index) },
-
-      addQuestion() {
-        this.questions.push({
-          title: '',
-          type: 'text',
-          required: false,
-          choices: []
-        })
-      },
-
-      changeRequired(index, value) {
-        this.$set(this.questions, index, { ...this.questions[index], required: value })
-      },
-
-      moveQuestionUp(index) {
-        const temp = this.questions[index]
-        this.$set(this.questions, index, this.questions[index - 1])
-        this.$set(this.questions, index - 1, temp)
-      },
-
-      moveQuestionDown(index) {
-        const temp = this.questions[index]
-        this.$set(this.questions, index, this.questions[index + 1])
-        this.$set(this.questions, index + 1, temp)
-      }
-    }
   }
 </script>
 

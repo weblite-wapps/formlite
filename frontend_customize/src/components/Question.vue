@@ -26,7 +26,7 @@
         <TypePicker :question="question"/>
         <div :class="$style['req-text']"> required : </div>
         <CheckBox
-          :checked="question.required"
+          :checkedInit="question.required"
           @click="changeRequired"
         />
       </div>

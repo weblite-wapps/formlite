@@ -4,8 +4,12 @@
   <FormHeader :formTitle="formTitle"/>
   <Questions
     :questions="questions"
-    :editChoice="editChoice"
-    @delete-question="deleteQuestion($event)"/>
+    :editChoice="editQuestionChoice"
+    :addQuestion="addQuestion"
+    :changeQuestionRequired="changeQuestionRequired"
+    :moveQuestionUp="moveQuestionUp"
+    :moveQuestionDown="moveQuestionDown"
+    :deleteQuestion="deleteQuestion"/>
 </div>
 </template>
 
@@ -40,8 +44,48 @@ export default {
       this.questions = R.remove(index, 1, this.questions)
     },
 
-    editChoice: questionIndex => (choiceIndex, value) => {
-      this.questions = R.assocPath([questionIndex, 'choices', choiceIndex], value, this.questions)
+    editQuestionChoice(questionIndex) {
+      return (choiceIndex, value) => {
+        this.questions = R.assocPath([questionIndex, 'choices', choiceIndex], value, this.questions)
+      }
+    },
+
+    addQuestion() {
+      const newQuestion = {
+        title: '',
+        type: 'text',
+        required: false,
+        choices: []
+      }
+      this.questions = R.append(newQuestion, this.questions)
+    },
+
+    changeQuestionRequired(questionIndex, value) {
+      this.questions = R.assocPath([questionIndex, 'required'], value, this.questions)
+    },
+
+    moveQuestionUp(index) {
+      const from = this.questions[index]
+      const to = this.questions[index - 1]
+      const fromlens = R.lensIndex(index)
+      const tolens = R.lensIndex(index - 1)
+
+      this.questions = R.pipe(
+        R.set(tolens, from),
+        R.set(fromlens, to)
+      )(this.questions)
+    },
+
+    moveQuestionDown(index) {
+      const from = this.questions[index]
+      const to = this.questions[index + 1]
+      const fromlens = R.lensIndex(index)
+      const tolens = R.lensIndex(index + 1)
+
+      this.questions = R.pipe(
+        R.set(tolens, from),
+        R.set(fromlens, to)
+      )(this.questions)
     }
   },
 

@@ -15,11 +15,12 @@
     name: 'CheckBox',
 
     props:{
-      checked: Boolean
+      checkedInit: Boolean
     },
 
     data() {
       return {
+        checked: this.checkedInit
       }
     },
 
