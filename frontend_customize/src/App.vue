@@ -28,22 +28,11 @@ export default {
 
   data: () => ({
     wappTitle: 'Formlite',
-    formTitle: 'form title goes here ...',
-    name: '',
+    formTitle: 'Title',
     questions: []
   }),
 
-  created() { 
-    W && webliteHandler(this) 
-  },
-
-  computed: {
-    
-  },
-
-  methods: {
-    
-  },
+  created() { W && webliteHandler(this) },
 }
 </script>
 
@@ -60,17 +49,4 @@ export default {
   overflow: hidden;
   background: #f0f0f098;
 }
-
-.formTitle {
-  text-align: center;
-  margin: 15px;
-  font-size: 20px;
-  color: #5a5a5a;
-}
-
-.splitter {
-  margin: 0px 20px 2px 20px;
-  border-bottom: 1px solid rgba(99, 99, 99, 0.418);
-}
-
 </style>

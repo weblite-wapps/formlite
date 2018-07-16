@@ -9,23 +9,12 @@
 
 
 <script>
-
   export default {
     name: 'Header',
 
     props:{
       title: String,
     },
-
-    data() {
-      return {
-        
-      }
-    },
-
-    methods: {
-      
-    }
   }
 </script>
 

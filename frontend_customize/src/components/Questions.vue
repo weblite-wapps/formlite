@@ -1,14 +1,15 @@
 <template>
   <div :class="$style.questions">
-    <Question 
-      v-for="(q, index) in questions"
-      :question="q"
+    <Question
+      v-for="(question, index) in questions"
+      :question="question"
       :key="index"
-      :isTop="isTop(index)"
-      :isBottom="isBottom(index)"
+      :index="index"
+      :arrayLength="questions.length"
       @move-up="moveQuestionUp(index)"
       @move-down="moveQuestionDown(index)"
       @deleted="deleteQuestion(index)"
+      @changeRequired="changeRequired(index, $event)"
     />
     <AddQuestion @add-question="addQuestion"/>
   </div>
@@ -16,7 +17,6 @@
 
 
 <script>
-
   //components
   import Question from './Question'
   import AddQuestion from './AddQuestion'
@@ -33,16 +33,8 @@
       questions: Array
     },
 
-    data() {
-      return {
-        
-      }
-    },
-
     methods: {
-      deleteQuestion(index) {
-        this.questions.splice(index, 1)
-      },
+      deleteQuestion(index) { this.questions.splice(index, 1) },
 
       addQuestion() {
         this.questions.push({
@@ -53,24 +45,20 @@
         })
       },
 
-      isTop(index) {
-        return index == 0;
-      },
-
-      isBottom(index) {
-        return index == (this.questions.length - 1);
+      changeRequired(index, value) {
+        this.$set(this.questions, index, { ...this.questions[index], required: value })
       },
 
       moveQuestionUp(index) {
-        var temp = this.questions[index]
-        this.$set(this.questions, index, this.questions[index-1])
-        this.$set(this.questions, index-1, temp)
+        const temp = this.questions[index]
+        this.$set(this.questions, index, this.questions[index - 1])
+        this.$set(this.questions, index - 1, temp)
       },
 
       moveQuestionDown(index) {
-        var temp = this.questions[index]
-        this.$set(this.questions, index, this.questions[index+1])
-        this.$set(this.questions, index+1, temp)
+        const temp = this.questions[index]
+        this.$set(this.questions, index, this.questions[index + 1])
+        this.$set(this.questions, index + 1, temp)
       }
     }
   }

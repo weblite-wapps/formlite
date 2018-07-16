@@ -10,8 +10,9 @@
 
     <div :class="$style['customize-box']">
       <div
-        :class="$style['customize-answer']" 
-        v-if="question.type != 'text' && question.type != 'toggle'">
+        :class="$style['customize-answer']"
+        v-if="question.type != 'text' && question.type != 'toggle'"
+      >
         <transition name="fade">
           <Choices :question="question"/>
         </transition>
@@ -22,16 +23,16 @@
       <div :class="$style['properties']">
         <TypePicker :question="question"/>
         <div :class="$style['req-text']"> required : </div>
-        <CheckBox 
+        <CheckBox
           :checked="question.required"
-          @click="question.required = $event"
+          @click="changeRequired"
         />
       </div>
 
       <div :class="$style.splitter"/>
 
       <div :class="$style.actions">
-        <i :class="$style.delete" @click="$emit('deleted')"> delete </i>
+        <i :class="$style.delete" @click="deleted"> delete </i>
         <div :class="$style.arrows">
           <i :class="topArrowStyle" @click="moveUp"> keyboard_arrow_up </i>
           <i :class="downArrowStyle" @click="moveDown"> keyboard_arrow_down </i>
@@ -59,38 +60,34 @@
 
     props:{
       question: Object,
-      isTop: Boolean,
-      isBottom: Boolean
-    },
-
-    data() {
-      return {
-
-      }
+      arrayLength: Number,
+      index: Number,
     },
 
     methods: {
-      focus() {
-        this.$refs.qTitle.focus()
-      },
+      changeRequired($event) { this,$emit('changeRequired', $event) },
 
-      moveUp() {
-        if (!this.isTop) this.$emit('move-up');
-      },
+      deleted() { this.$emit('deleted') },
 
-      moveDown() {
-        if (!this.isBottom) this.$emit('move-down')
-      }
+      focus() { this.$refs.qTitle.focus() },
+
+      moveUp() { if (!this.isTop) this.$emit('move-up') },
+
+      moveDown() { if (!this.isBottom) this.$emit('move-down') },
     },
 
     computed: {
+      isTop() { return this.index == 0 },
+
+      isBottom() { return this.index == (this.arrayLength - 1) },
+
       topArrowStyle() {
         return !this.isTop ? this.$style.up : this.$style['up-disable']
       },
 
       downArrowStyle() {
         return !this.isBottom ? this.$style.down : this.$style['down-disable']
-      }
+      },
     }
   }
 </script>
@@ -124,7 +121,7 @@
     border-bottom: 1px #367edb solid;
     border-color: #68686800;
     color: #6b6b6b;
-    margin-left: 20px; 
+    margin-left: 20px;
     width: 220px;
     font-size: 20px;
     -webkit-transition: border-color 0.2s ease-in-out;
