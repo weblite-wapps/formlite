@@ -5,17 +5,17 @@
     <div
       :class="$style.icon"
       @click="$refs.in.focus()"
-      :style="{'border-radius': (this.type == 'radio') ? '10px' : '4px'}"/>
+      :style="{'border-radius': borderRadius}"/>
 
     <input :class="$style.input" placeholder="choice"
       :value="title"
-      @input="$emit('input',$event.target.value)"
+      @input="onInput($event.target.value)"
       ref="in"/>
 
     <i
       :class="$style.delete"
       v-if="canBeRemoved"
-      @click="$emit('choice-delete', index)"
+      @click="onDelete"
     > delete </i>
   </div>
 </template>
@@ -26,16 +26,22 @@
   export default {
     name: 'Choice',
 
-    components: {
-
-    },
-
     props:{
       title: String,
       type: String,
       index: Number,
       canBeRemoved: Boolean
     },
+
+    methods: {
+      onInput(value) { this.$emit('input', value) },
+
+      onDelete() { this.$emit('choice-delete', this.index) }
+    },
+
+    computed: {
+      borderRadius: () => (this.type == 'radio') ? '10px' : '4px'
+    }
   }
 </script>
 

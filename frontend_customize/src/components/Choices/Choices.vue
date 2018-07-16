@@ -7,7 +7,7 @@
       :index="index"
       :title="question.choices[index]"
       :canBeRemoved="!hasOneChoice"
-      @input="question.choices[index] = $event"
+      @input="editChoice(index, $event)"
       @choice-delete="deleteChoice($event)"
     />
     <AddChoice @add-choice="addChoice"/>
@@ -16,7 +16,6 @@
 
 
 <script>
-
   import Choice from './Choice'
   import AddChoice from './AddChoice'
 
@@ -29,7 +28,8 @@
     },
 
     props:{
-      question: Object
+      question: Object,
+      editChoice: Function
     },
 
     methods: {

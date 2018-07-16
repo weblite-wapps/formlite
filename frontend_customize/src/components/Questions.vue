@@ -6,6 +6,7 @@
       :key="index"
       :index="index"
       :arrayLength="questions.length"
+      :editChoice="editChoice(index)"
       @move-up="moveQuestionUp(index)"
       @move-down="moveQuestionDown(index)"
       @deleted="deleteQuestion(index)"
@@ -30,11 +31,12 @@
     },
 
     props:{
-      questions: Array
+      questions: Array,
+      editChoice: Function
     },
 
     methods: {
-      deleteQuestion(index) { this.questions.splice(index, 1) },
+      deleteQuestion(index) { this.$emit('delete-question', index) },
 
       addQuestion() {
         this.questions.push({

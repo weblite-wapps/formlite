@@ -14,7 +14,9 @@
         v-if="question.type != 'text' && question.type != 'toggle'"
       >
         <transition name="fade">
-          <Choices :question="question"/>
+          <Choices 
+            :question="question"
+            :editChoice="editChoice"/>
         </transition>
       </div>
 
@@ -62,6 +64,7 @@
       question: Object,
       arrayLength: Number,
       index: Number,
+      editChoice: Function
     },
 
     methods: {
