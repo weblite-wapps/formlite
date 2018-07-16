@@ -1,14 +1,18 @@
 <template>
   <div :class="$style.root">
     <Header :title="formTitle" />
-    <Questions 
+
+    <Questions
       :questions="questions"
       :answers="answers"
       :curQuestion="curQuestion"
       :creator="creator"
       :editAnswer="editAnswer"
-      v-if="!reviewing"/>
+      v-if="!reviewing"
+    />
+
     <SnackBar/>
+
     <Actions
       :length="questions.length"
       :curIndex="curQuestion"
@@ -17,12 +21,15 @@
       @prev-hover="transition='prevlist'"
       @next="curQuestion++"
       @prev="curQuestion--"
-      @submit="submit"/>
+      @submit="submit"
+    />
+
     <Reviews
       v-if="reviewing"
       :creator="creator"
       :peopleData="peopleData"
-      :questions="questions"/>
+      :questions="questions"
+    />
   </div>
 </template>
 
@@ -37,10 +44,10 @@ import Reviews from './components/Review/Reviews'
 // helper
 import webliteHandler from './helper/function/weblite.api'
 import requests from './helper/function/handleRequests'
+import bus from './helper/function/bus'
 // R && W
 const { R, W } = window
 
-import bus from './helper/function/bus'
 
 export default {
   name: 'App',
@@ -56,10 +63,9 @@ export default {
   data: () => ({
     name: 'ali',
     userId: 2,
-    wisId: 1001,
+    wisId: 1003,
     creator: false,
-    formTitle: 'form title goes here ...',
-
+    formTitle: 'Title',
     questions: [{
       title: 'question 1',
       required: false,
@@ -81,23 +87,16 @@ export default {
       type: 'radio',
       choices: ['choice1', 'choice2', 'choice3']
     }],
-
     reviewing: false,
-
-    // Answering the form
-
     answers: [],
     curQuestion: 0,
     transition: 'nextlist',
-
-    // Reviewing 
-
     peopleData: []
-
   }),
 
+
   created() {
-    W && webliteHandler(this) 
+    W && webliteHandler(this)
 
     if (this.creator) {
       requests.getAllAnswers(this.wisId)
@@ -105,62 +104,46 @@ export default {
           this.peopleData = res
           this.reviewing = true;
         })
-        .catch(() => {
-          bus.$emit('show-message', 'Error has occured ...')
-        })
     } else {
       requests.getUserAnswers(this.userId, this.wisId)
-        .then(res => {
+        .then((res) => {
           if (res.found) {
-            this.peopleData = [{
-              username: this.name,
-              userId: this.userId,
-              wisId: this.wisId,
-              answers: res.answers
-            }]
+            addPeopleData(res.answers)
             this.reviewing = true;
           } else {
-            R.forEach(q => {
-              if (q.type == 'checkbox')
-                this.answers.push([])
-              else 
-                this.answers.push('')
+            this.answers = R.map(({ type }) => {
+              if (type == 'checkbox') return []
+              return ''
             }, this.questions)
             this.reviewing = false;
           }
-        })
-        .catch(() => {
-          bus.$emit('show-message', 'Error has occured ...')
         })
     }
   },
 
   methods: {
-    submit() {
-      console.log(this.answers)
-      var valid = true
-      R.forEachObjIndexed((q, i) => {
-        if (q.required)
-          if ((q.type == 'radio' || q.type == 'text') && this.answers[i] == '') 
-            valid = false  
-      }, this.questions)
+    addPeopleData(answers) {
+      this.peopleData = [{
+        username: this.name,
+        userId: this.userId,
+        wisId: this.wisId,
+        answers: answers || this.answers,
+      }]
+    },
 
-      if (!valid)
-        bus.$emit('show-message', 'please answer all the requirements ...')
+    submit() {
+      const valid = this.questions.reduce((acc, { required, type }, i) => {
+        if (required && (type == 'radio' || type == 'text') && this.answers[i] == '') return false
+        return acc
+      }, true)
+
+      if (!valid) bus.$emit('show-message', 'please answer all the requirements ...')
       else {
         requests.postAnswers(this.name, this.userId, this.wisId, this.answers)
           .then(() => {
-            this.peopleData = [{
-              username: this.name,
-              userId: this.userId,
-              wisId: this.wisId,
-              answers: this.answers
-            }]
+            addPeopleData()
             this.reviewing = true
             bus.$emit('show-message', 'Submitted ...')
-          })
-          .catch(() => {
-            bus.$emit('show-message', 'Error has occured ...')
           })
       }
     },
