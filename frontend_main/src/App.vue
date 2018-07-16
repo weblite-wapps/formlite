@@ -108,7 +108,7 @@ export default {
       requests.getUserAnswers(this.userId, this.wisId)
         .then((res) => {
           if (res.found) {
-            addPeopleData(res.answers)
+            this.addPeopleData(res.answers)
             this.reviewing = true;
           } else {
             this.answers = R.map(({ type }) => {
@@ -141,7 +141,7 @@ export default {
       else {
         requests.postAnswers(this.name, this.userId, this.wisId, this.answers)
           .then(() => {
-            addPeopleData()
+            this.addPeopleData()
             this.reviewing = true
             bus.$emit('show-message', 'Submitted ...')
           })

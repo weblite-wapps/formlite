@@ -1,6 +1,8 @@
 import request from 'superagent'
-const domain = 'http://localhost:3000/'
+import bus from './bus'
 
+
+const domain = 'http://localhost:3000/'
 
 export default {
   postAnswers: (username, userId, wisId, answers) => request
