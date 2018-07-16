@@ -1,10 +1,10 @@
 <template>
   <div :class="$style.root">
     <Question
-      v-for="(q, i) in questions"
-      :key="i" 
-      :question="questions[i]"
-      :answers="answers"
+      v-for="(question, i) in questions"
+      :key="i"
+      :question="question"
+      :answer="answers[i]"
       :index="i"
       :editAnswer="editAnswer"
       v-show="curQuestion == i"/>
@@ -31,11 +31,11 @@ export default {
   },
 
   data: () => ({
-    
+
   }),
 
   methods: {
-    
+
   }
 }
 </script>

@@ -1,9 +1,11 @@
 <template>
-  <div :class="$style.choice">
-    <Radio 
+  <div class="choice">
+    <Radio
       :value="selectedRadio == radioIndex"
-      @input="onInput"/>
-    <div :class="$style.text"> {{title}} </div>
+      @input="onInput"
+    />
+
+    <div class="text">{{title}}</div>
   </div>
 </template>
 
@@ -21,23 +23,18 @@
 
     props:{
       title: String,
-      qIndex: Number,
-      answers: Array,
       radioIndex: Number,
-      selectedRadio: Number
+      selectedRadio: Number,
     },
 
     methods: {
-      onInput() {
-        this.$emit('input')
-      }
+      onInput() { this.$emit('input') },
     }
   }
 </script>
 
 
-<style module>
-
+<style scoped>
 .choice {
   display: flex;
   margin-bottom: 10px;
@@ -49,5 +46,4 @@
   margin-left: 8px;
   cursor: default;
 }
-
 </style>

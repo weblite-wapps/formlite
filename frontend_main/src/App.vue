@@ -1,5 +1,5 @@
 <template>
-  <div :class="$style.root">
+  <div class="root">
     <Header :title="formTitle" />
 
     <Questions
@@ -156,7 +156,7 @@ export default {
 </script>
 
 
-<style module>
+<style scoped>
 .root {
   position: relative;
   width: 350px;

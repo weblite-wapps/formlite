@@ -1,6 +1,6 @@
 <template>
   <div :class="$style.choice">
-    <CheckBox 
+    <CheckBox
       :valueInit="false"
       @input="onInput($event)"/>
     <div :class="$style.text"> {{title}} </div>
@@ -22,17 +22,14 @@
 
     props:{
       title: String,
-      qIndex: Number,
-      answers: Array,
+      answer: [Array, String],
       editAnswer: Function
     },
 
     methods: {
       onInput(value) {
-        if (value)
-          this.editAnswer(this.qIndex, R.append(this.title, this.answers[this.qIndex]))
-        else 
-          this.editAnswer(this.qIndex, R.remove(R.indexOf(this.title, this.answers[this.qIndex]), 1, this.answers[this.qIndex]))
+        if (value) this.editAnswer(this.qIndex, R.append(this.title, this.answer))
+        else this.editAnswer(this.qIndex, R.remove(R.indexOf(this.title, this.answer), 1, this.answer))
       }
     }
   }

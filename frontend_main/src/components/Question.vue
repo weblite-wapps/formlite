@@ -3,60 +3,54 @@
   <div :class="$style.card">
     <div :class="$style['req-text']" v-if="question.required"> * required </div>
     <div :class="$style['title-box']">
-      <p :class="$style.title"> {{question.title}} </p>
+      <p :class="$style.title"> {{ question.title }} </p>
     </div>
 
     <div :class="$style.splitter"/>
 
     <div :class="$style['answer-box']">
-      <!-- text -->
-      <div v-if="question.type == 'text'">
-        <textarea 
-          :value="answers[index]" 
-          placeholder="your answer ..."
-          @input="editAnswer(index, $event.target.value)"
-        />
-      </div>
-      <!-- toggle -->
+      <textarea
+        v-if="question.type == 'text'"
+        :value="answer"
+        placeholder="your answer ..."
+        @input="editAnswer(index, $event.target.value)"
+      />
+
       <div :class="$style['toggle-answer']" v-else-if="question.type == 'toggle'">
-        <p :class="$style['toggle-text']"> answer : </p>
-        <Toggle @click="toggleAnswer" :checked="answers[index] == 'yes'"/>
+        <p :class="$style['toggle-text']">answer :</p>
+        <Toggle @click="toggleAnswer" :checked="answer == 'yes'"/>
       </div>
-      <!-- checkbox -->
-      <div v-if="question.type == 'checkbox'">
-        <CheckboxChoice
-          v-for="(choice, i) in question.choices"
-          :key="i"
-          :qIndex="index"
-          :answers="answers"
-          :title="choice"
-          :editAnswer="editAnswer"
-        />
-      </div>
-      <!-- radio -->
-      <div v-if="question.type == 'radio'">
-        <RadioChoice
-          v-for="(choice, i) in question.choices"
-          :key="i"
-          :qIndex="index"
-          :answers="answers"
-          :title="choice"
-          :radioIndex="i"
-          :selectedRadio="selectedRadio"
-          @input="onRadioInput(i, choice)"
-        />
-      </div>
+
+      <CheckboxChoice
+        v-if="question.type == 'checkbox'"
+        v-for="(choice, i) in question.choices"
+        :key="i"
+        :answer="answer"
+        :title="choice"
+        :editAnswer="editAnswer"
+      />
+
+      <RadioChoice
+        v-if="question.type == 'radio'"
+        v-for="(choice, i) in question.choices"
+        :key="i"
+        :answer="answer"
+        :title="choice"
+        :radioIndex="i"
+        :selectedRadio="selectedRadio"
+        @input="onRadioInput(i, choice)"
+      />
     </div>
   </div>
   </transition>
 </template>
 
 <script>
-
   //components
   import Toggle from '../helper/component/Toggle'
   import CheckboxChoice from './CheckboxChoice'
   import RadioChoice from './RadioChoice'
+
 
   export default {
     name: 'Question',
@@ -70,19 +64,15 @@
     props:{
       question: Object,
       index: Number,
-      answers: Array,
+      answer: [Array, String],
       editAnswer: Function
     },
 
-    data() {
-      return {
-        selectedRadio: -1
-      }
-    },
+    data() { return { selectedRadio: -1 } },
 
     methods: {
       toggleAnswer() {
-        this.editAnswer(this.index, (this.answers[this.index] == '') ? 'yes' : '')
+        this.editAnswer(this.index, (this.answer == '') ? 'yes' : '')
       },
 
       onRadioInput(radioIndex, value) {
@@ -101,8 +91,6 @@
     box-shadow: 0px 2px 7px 0px rgba(80, 80, 80, 0.37);
     position: absolute;
   }
-
-  /* title */
 
   .title-box {
     display: flex;
@@ -129,13 +117,9 @@
     border-bottom: 1px rgba(128, 128, 128, 0.274) solid;
   }
 
-  /* answers */
-
   .answer-box {
     padding: 15px;
   }
-
-  /* text answer */
 
   textarea {
     resize: none;
@@ -158,8 +142,6 @@
     border-bottom: 1px rgb(0, 140, 255) solid;
   }
 
-  /* toggle answer */
-
   .toggle-answer {
     display: flex;
     justify-content: space-between;
@@ -168,5 +150,4 @@
   .toggle-text {
     color: rgb(128, 128, 128);
   }
-
 </style>
