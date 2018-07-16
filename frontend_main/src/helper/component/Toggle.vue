@@ -1,12 +1,4 @@
 <template>
-  <!-- <div 
-    :class="$style.root" 
-    :style="{'border-color': (checked) ? '#3b74a3' : '#8d8d8d'}"
-    @click="onClick">
-    <transition name="fade">
-      <i :class="$style.mark" v-if="checked"> done </i>
-    </transition>
-  </div> -->
   <div :class="$style.root">
     <input @click="onClick" type="checkbox" id="id-name--1" :class="$style['switch-input']" v-model="checked">
     <label for="id-name--1" :class="$style['switch-label']">
@@ -17,23 +9,16 @@
 </template>
 
 <script>
-
   export default {
     name: 'Toggle',
 
     props:{
-      checkedInit: Boolean
-    },
-
-    data() {
-      return {
-        checked: this.checkedInit
-      }
+      checked: Boolean
     },
 
     methods: {
       onClick() {
-        this.$emit('click', !this.checked)
+        this.$emit('click')
       }
     }
   }

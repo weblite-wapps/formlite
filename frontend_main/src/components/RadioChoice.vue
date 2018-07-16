@@ -27,15 +27,8 @@
       selectedRadio: Number
     },
 
-    data() {
-      return {
-
-      }
-    },
-
     methods: {
       onInput() {
-        this.answers[this.qIndex] = this.title
         this.$emit('input')
       }
     }

@@ -9,7 +9,6 @@
 
 
 <script>
-
   import CheckBox from '../helper/component/CheckBox'
 
   const { R } = window
@@ -24,21 +23,16 @@
     props:{
       title: String,
       qIndex: Number,
-      answers: Array
-    },
-
-    data() {
-      return {
-        
-      }
+      answers: Array,
+      editAnswer: Function
     },
 
     methods: {
       onInput(value) {
         if (value)
-          this.answers[this.qIndex].push(this.title)
+          this.editAnswer(this.qIndex, R.append(this.title, this.answers[this.qIndex]))
         else 
-          this.$set(this.answers, this.qIndex, R.remove(R.indexOf(this.title, this.answers[this.qIndex]), 1, this.answers[this.qIndex]))
+          this.editAnswer(this.qIndex, R.remove(R.indexOf(this.title, this.answers[this.qIndex]), 1, this.answers[this.qIndex]))
       }
     }
   }

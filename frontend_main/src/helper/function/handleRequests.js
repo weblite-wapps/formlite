@@ -11,26 +11,20 @@ export default {
         wisId: wisId,
         answers: answers
       })
-      .then(res => {
-        return res
-      })
+      .then(res => res)
   },
 
   getUserAnswers: (userId, wisId) => {
     return request
       .get(domain + 'getUserAnswer/')
       .query({userId: userId, wisId: wisId})
-      .then(res => {
-        return res.body
-      })
+      .then(res => res.body)
   },
 
   getAllAnswers: (wisId) => {
     return request
       .get(domain + 'getAllAnswers/')
       .query({wisId: wisId})
-      .then(res => {
-        return res.body
-      })
+      .then(res => res.body)
   }
 }

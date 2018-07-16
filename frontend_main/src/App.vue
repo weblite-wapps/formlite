@@ -6,6 +6,7 @@
       :answers="answers"
       :curQuestion="curQuestion"
       :creator="creator"
+      :editAnswer="editAnswer"
       v-if="!reviewing"/>
     <SnackBar/>
     <Actions
@@ -53,10 +54,10 @@ export default {
   },
 
   data: () => ({
-    name: 'mamad',
-    userId: 1,
+    name: 'ali',
+    userId: 2,
     wisId: 1001,
-    creator: true,
+    creator: false,
     formTitle: 'form title goes here ...',
 
     questions: [{
@@ -136,6 +137,7 @@ export default {
 
   methods: {
     submit() {
+      console.log(this.answers)
       var valid = true
       R.forEachObjIndexed((q, i) => {
         if (q.required)
@@ -161,6 +163,10 @@ export default {
             bus.$emit('show-message', 'Error has occured ...')
           })
       }
+    },
+
+    editAnswer(index, value) {
+      this.answers = R.assocPath([index], value, this.answers)
     }
   }
 }

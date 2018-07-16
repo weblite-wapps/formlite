@@ -11,12 +11,16 @@
     <div :class="$style['answer-box']">
       <!-- text -->
       <div v-if="question.type == 'text'">
-        <textarea v-model="answers[index]" placeholder="your answer ..."/>
+        <textarea 
+          :value="answers[index]" 
+          placeholder="your answer ..."
+          @input="editAnswer(index, $event.target.value)"
+        />
       </div>
       <!-- toggle -->
       <div :class="$style['toggle-answer']" v-else-if="question.type == 'toggle'">
         <p :class="$style['toggle-text']"> answer : </p>
-        <Toggle @click="toggleAnswer($event)" :checkedInit="answers[index] == 'yes'"/>
+        <Toggle @click="toggleAnswer" :checked="answers[index] == 'yes'"/>
       </div>
       <!-- checkbox -->
       <div v-if="question.type == 'checkbox'">
@@ -26,6 +30,7 @@
           :qIndex="index"
           :answers="answers"
           :title="choice"
+          :editAnswer="editAnswer"
         />
       </div>
       <!-- radio -->
@@ -38,7 +43,7 @@
           :title="choice"
           :radioIndex="i"
           :selectedRadio="selectedRadio"
-          @input="selectedRadio = i"
+          @input="onRadioInput(i, choice)"
         />
       </div>
     </div>
@@ -65,7 +70,8 @@
     props:{
       question: Object,
       index: Number,
-      answers: Array
+      answers: Array,
+      editAnswer: Function
     },
 
     data() {
@@ -75,8 +81,13 @@
     },
 
     methods: {
-      toggleAnswer(checked) {
-        this.$set(this.answers, this.index, checked ? 'yes' : '')
+      toggleAnswer() {
+        this.editAnswer(this.index, (this.answers[this.index] == '') ? 'yes' : '')
+      },
+
+      onRadioInput(radioIndex, value) {
+        this.selectedRadio = radioIndex
+        this.editAnswer(this.index, value)
       }
     },
   }

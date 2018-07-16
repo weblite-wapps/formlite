@@ -22,19 +22,11 @@
 export default {
   name: 'Actions',
 
-  components: {
-    
-  },
-
   props: {
     length: Number,
     curIndex: Number,
     creator: Boolean
   },
-
-  data: () => ({
-
-  }),
 
   methods: {
     onPrev() {
