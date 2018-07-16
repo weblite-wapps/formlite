@@ -26,7 +26,7 @@
         <TypePicker :question="question"/>
         <div :class="$style['req-text']"> required : </div>
         <CheckBox
-          :checkedInit="question.required"
+          :checked="question.required"
           @click="changeRequired"
         />
       </div>
@@ -68,7 +68,7 @@
     },
 
     methods: {
-      changeRequired($event) { this.$emit('changeRequired', $event) },
+      changeRequired() { this.$emit('changeRequired') },
 
       deleted() { this.$emit('deleted') },
 

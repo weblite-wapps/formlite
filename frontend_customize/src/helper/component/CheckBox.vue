@@ -15,19 +15,12 @@
     name: 'CheckBox',
 
     props:{
-      checkedInit: Boolean
-    },
-
-    data() {
-      return {
-        checked: this.checkedInit
-      }
+      checked: Boolean
     },
 
     methods: {
       onClick() {
-        this.checked = !this.checked
-        this.$emit('click', this.checked)
+        this.$emit('click')
       }
     }
   }

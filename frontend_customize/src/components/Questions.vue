@@ -10,7 +10,7 @@
       @move-up="moveQuestionUp(index)"
       @move-down="moveQuestionDown(index)"
       @deleted="deleteQuestion(index)"
-      @changeRequired="changeQuestionRequired(index, $event)"
+      @changeRequired="changeQuestionRequired(index, !questions[index].required)"
     />
     <AddQuestion @add-question="addQuestion"/>
   </div>
