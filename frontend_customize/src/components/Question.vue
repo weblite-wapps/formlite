@@ -65,7 +65,7 @@
     },
 
     methods: {
-      changeRequired($event) { this,$emit('changeRequired', $event) },
+      changeRequired($event) { this.$emit('changeRequired', $event) },
 
       deleted() { this.$emit('deleted') },
 

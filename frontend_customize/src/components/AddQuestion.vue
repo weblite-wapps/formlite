@@ -7,19 +7,8 @@
 
 
 <script>
-
   export default {
     name: 'AddQuestion',
-
-    props:{
-      
-    },
-
-    data() {
-      return {
-        
-      }
-    },
   }
 </script>
 

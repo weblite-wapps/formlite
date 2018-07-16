@@ -10,16 +10,6 @@
 
   export default {
     name: 'AddChoice',
-
-    props:{
-      
-    },
-
-    data() {
-      return {
-        
-      }
-    },
   }
 </script>
 

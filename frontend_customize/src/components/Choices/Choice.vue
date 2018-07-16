@@ -2,7 +2,7 @@
   <div :class="$style.choice">
     <i :class="$style.edit" @click="$refs.in.focus()"> edit </i>
 
-    <div 
+    <div
       :class="$style.icon"
       @click="$refs.in.focus()"
       :style="{'border-radius': (this.type == 'radio') ? '10px' : '4px'}"/>
@@ -12,8 +12,8 @@
       @input="$emit('input',$event.target.value)"
       ref="in"/>
 
-    <i 
-      :class="$style.delete" 
+    <i
+      :class="$style.delete"
       v-if="canBeRemoved"
       @click="$emit('choice-delete', index)"
     > delete </i>
@@ -27,7 +27,7 @@
     name: 'Choice',
 
     components: {
-      
+
     },
 
     props:{
@@ -35,12 +35,6 @@
       type: String,
       index: Number,
       canBeRemoved: Boolean
-    },
-
-    data() {
-      return {
-        
-      }
     },
   }
 </script>

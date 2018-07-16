@@ -32,26 +32,14 @@
       question: Object
     },
 
-    data() {
-      return {
-        
-      }
-    },
-
     methods: {
-      deleteChoice(index) {
-        this.question.choices.splice(index, 1)
-      },
-      
-      addChoice() {
-        this.question.choices.push("")
-      }
+      deleteChoice(index) { this.question.choices.splice(index, 1) },
+
+      addChoice() { this.question.choices.push("") }
     },
 
     computed: {
-      hasOneChoice() {
-        return this.question.choices.length == 1
-      }
+      hasOneChoice() { return this.question.choices.length == 1 },
     }
   }
 </script>
