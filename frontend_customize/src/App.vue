@@ -2,7 +2,7 @@
 <div :class="$style.root">
   <Header :title="wappTitle" />
   <FormHeader :formTitle="formTitle"/>
-  <Questions 
+  <Questions
     :questions="questions"
     :editChoice="editChoice"
     @delete-question="deleteQuestion($event)"/>
@@ -18,7 +18,7 @@ import FormHeader from './components/FormHeader'
 // helper
 import webliteHandler from './helper/function/weblite.api'
 // W
-const { W } = window
+const { W, R } = window
 
 export default {
   name: 'App',
@@ -36,9 +36,13 @@ export default {
   }),
 
   methods: {
-    deleteQuestion(index) { this.questions.splice(index, 1) },
+    deleteQuestion(index) {
+      this.questions = R.remove(index, 1, this.questions)
+    },
 
-    editChoice: questionIndex => (choiceIndex, value) => {console.log(value); this.$set(this.questions[questionIndex].choices, choiceIndex, value)}
+    editChoice: questionIndex => (choiceIndex, value) => {
+      this.questions = R.assocPath([questionIndex, 'choices', choiceIndex], value, this.questions)
+    }
   },
 
   created() { W && webliteHandler(this) },
