@@ -5,6 +5,6 @@ var app = express()
 
 database.connect('formlite_db')
 
-app.use('/', answersRouter.Router) 
+app.use('/', answersRouter.Router)
 
 app.listen(3000, () => console.log("server running ..."))
