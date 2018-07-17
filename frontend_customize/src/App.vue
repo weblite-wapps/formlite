@@ -55,19 +55,15 @@ export default {
 
     deleteQuestionChoice(questionIndex) {
       return choiceIndex => {
-        this.questions = this.questions.map((question, index) => {
-          if (index != questionIndex) return question
-          return {...question, choices: question.choices.filter((value, index) => index != choiceIndex)}
-        })
+        const choicesLens = R.lensPath([questionIndex, 'choices'])
+        this.questions = R.over(choicesLens, R.remove(choiceIndex, 1), this.questions)
       }
     },
 
     addQuestionChoice(questionIndex) {
       return () => {
-        this.questions = this.questions.map((question, index) => {
-          if (index != questionIndex) return question
-          return {...question, choices: question.choices.concat('')}
-        })
+        const choicesLens = R.lensPath([questionIndex, 'choices'])
+        this.questions = R.over(choicesLens, R.append(''), this.questions)
       }
     },
 
@@ -96,7 +92,7 @@ export default {
 
       this.questions = R.pipe(
         R.set(tolens, this.questions[index]),
-        R.set(fromlens, this.questions[index + 1])
+        R.set(fromlens, this.questions[index + 1]),
       )(this.questions)
     }
   },
