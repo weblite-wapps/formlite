@@ -7,7 +7,7 @@
       :answer="answers[i]"
       :index="i"
       :editAnswer="editAnswer"
-      v-show="curQuestion == i"/>
+      v-show="currentQuestion === i"/>
   </div>
 </template>
 
@@ -24,7 +24,7 @@ export default {
   },
 
   props: {
-    curQuestion: Number,
+    currentQuestion: Number,
     questions: Array,
     answers: Array,
     editAnswer: Function

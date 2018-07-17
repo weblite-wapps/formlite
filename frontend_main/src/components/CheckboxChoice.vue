@@ -2,7 +2,8 @@
   <div :class="$style.choice">
     <CheckBox
       :valueInit="false"
-      @input="onInput($event)"/>
+      @input="onInput($event)"
+    />
     <div :class="$style.text"> {{title}} </div>
   </div>
 </template>

@@ -16,8 +16,8 @@
       :length="questions.length"
       :curIndex="curQuestion"
       v-if="!reviewing && !creator"
-      @next-hover="transition='nextlist'"
-      @prev-hover="transition='prevlist'"
+      @next-hover="transition = 'nextlist'"
+      @prev-hover="transition = 'prevlist'"
       @next="curQuestion++"
       @prev="curQuestion--"
       @submit="submit"
@@ -147,9 +147,7 @@ export default {
       }
     },
 
-    editAnswer(index, value) {
-      this.answers = R.assocPath([index], value, this.answers)
-    }
+    editAnswer(index, value) { this.answers = R.assocPath([index], value, this.answers) },
   }
 }
 </script>

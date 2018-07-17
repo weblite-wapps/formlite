@@ -15,16 +15,6 @@
     props:{
       title: String,
     },
-
-    data() {
-      return {
-        
-      }
-    },
-
-    methods: {
-      
-    }
   }
 </script>
 

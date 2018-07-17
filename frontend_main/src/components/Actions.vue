@@ -1,15 +1,17 @@
 <template>
   <div :class="$style.root">
-    <div :class="prevStyle" 
+    <div :class="prevStyle"
       @mouseenter="$emit('prev-hover')"
       @click="onPrev"> Prev </div>
     <div :class="$style.text"> {{curIndex + 1}} / {{length}} </div>
-    <div :class="$style.next" 
-      @click="$emit('next')" 
+
+    <div :class="$style.next"
+      @click="$emit('next')"
       @mouseenter="$emit('next-hover')"
       v-if="!isLast"> Next </div>
-    <div :class="$style.submit" 
-      @click="$emit('submit')" 
+
+    <div :class="$style.submit"
+      @click="$emit('submit')"
       v-if="isLast"> Submit </div>
   </div>
 </template>
