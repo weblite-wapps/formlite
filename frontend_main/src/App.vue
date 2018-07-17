@@ -5,7 +5,7 @@
     <Questions
       :questions="questions"
       :answers="answers"
-      :curQuestion="curQuestion"
+      :currentQuestion="currentQuestion"
       :editAnswer="editAnswer"
       v-if="!reviewing"
     />
@@ -14,12 +14,12 @@
 
     <Actions
       :length="questions.length"
-      :curIndex="curQuestion"
+      :curIndex="currentQuestion"
       v-if="!reviewing && !creator"
       @next-hover="transition = 'nextlist'"
       @prev-hover="transition = 'prevlist'"
-      @next="curQuestion++"
-      @prev="curQuestion--"
+      @next="currentQuestion++"
+      @prev="currentQuestion--"
       @submit="submit"
     />
 
@@ -88,7 +88,7 @@ export default {
     }],
     reviewing: false,
     answers: [],
-    curQuestion: 0,
+    currentQuestion: 0,
     transition: 'nextlist',
     peopleData: []
   }),
@@ -106,6 +106,7 @@ export default {
     } else {
       requests.getUserAnswers(this.userId, this.wisId)
         .then((res) => {
+          console.log(this.questions)
           if (res.found) {
             this.addPeopleData(res.answers)
             this.reviewing = true;
@@ -147,7 +148,11 @@ export default {
       }
     },
 
-    editAnswer(index, value) { this.answers = R.assocPath([index], value, this.answers) },
+    editAnswer(index) { 
+      return value => {
+        this.answers = R.assocPath([index], value, this.answers) 
+      }
+    },
   }
 }
 </script>

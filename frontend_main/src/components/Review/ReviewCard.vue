@@ -11,19 +11,9 @@
 export default {
   name: 'ReviewCard',
 
-  components: {
-    
-  },
-
   props: {
     question: Object,
     answer: [String, Array]
-  },
-
-  data() {
-    return {
-
-    }
   },
 
   computed: {

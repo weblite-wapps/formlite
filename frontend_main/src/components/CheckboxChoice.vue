@@ -22,7 +22,6 @@
     },
 
     props:{
-      questionIndex: Number,
       title: String,
       answer: Array,
       editAnswer: Function
@@ -30,8 +29,8 @@
 
     methods: {
       onInput(value) {
-        if (value) this.editAnswer(this.questionIndex, R.append(this.title, this.answer))
-        else this.editAnswer(this.questionIndex, R.remove(R.indexOf(this.title, this.answer), 1, this.answer))
+        if (value) this.editAnswer(R.append(this.title, this.answer))
+        else this.editAnswer(R.remove(R.indexOf(this.title, this.answer), 1, this.answer))
       }
     }
   }
