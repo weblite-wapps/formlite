@@ -1,4 +1,5 @@
 module.exports = {
+  baseUrl: '/wapp/5b4f42f6e8ac737dd0225990/',
   pages: {
     main: {
       entry: 'src/main/main.js',

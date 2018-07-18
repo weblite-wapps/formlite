@@ -1,10 +1,11 @@
 {
   "name": "formlite",
-  "id": "",
+  "id": "5b4f42f6e8ac737dd0225990",
   "instancable": true,
   "creator": true,
   "inline": true,
   "shareDB": false,
+  "userInfo": true,
   "width": 352,
   "height": 452,
   "customizeArray": [{

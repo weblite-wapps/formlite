@@ -18,7 +18,6 @@ export default {
     .set('Access-Control-Allow-Origin', '*')
     .query({ userId , wisId })
     .then(res => res.body)
-    .catch(console.log)
     .catch(() => { bus.$emit('show-message', 'Error has occured ...') }),
 
   getAllAnswers: wisId => request
