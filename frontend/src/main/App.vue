@@ -61,31 +61,11 @@ export default {
 
   data: () => ({
     name: 'ali',
-    userId: '2',
-    wisId: '12',
-    creator: true,
+    userId: '',
+    wisId: '',
+    creator: false,
     formTitle: 'Title',
-    questions: [{
-      title: 'question 1',
-      required: true,
-      type: 'checkbox',
-      choices: ['choice1', 'choice2', 'choice3']
-    }, {
-      title: 'question 2',
-      required: false,
-      type: 'text',
-      choices: []
-    }, {
-      title: 'question 3',
-      required: false,
-      type: 'toggle',
-      choices: []
-    }, {
-      title: 'question 4',
-      required: false,
-      type: 'radio',
-      choices: ['choice1', 'choice2', 'choice3']
-    }],
+    questions: [],
     reviewing: false,
     answers: [],
     currentQuestion: 0,
@@ -94,31 +74,7 @@ export default {
   }),
 
 
-  created() {
-    W && webliteHandler(this)
-
-    if (this.creator) {
-      requests.getAllAnswers(this.wisId)
-        .then(res => {
-          this.peopleData = res
-          this.reviewing = true;
-        })
-    } else {
-      requests.getUserAnswers(this.userId, this.wisId)
-        .then((res) => {
-          if (res && res.found) {
-            this.addPeopleData(res.answers)
-            this.reviewing = true;
-          } else {
-            this.answers = R.map(({ type }) => {
-              if (type == 'checkbox') return []
-              return ''
-            }, this.questions)
-            this.reviewing = false;
-          }
-        })
-    }
-  },
+  created() { W && webliteHandler(this) },
 
   methods: {
     addPeopleData(answers) {
@@ -128,6 +84,30 @@ export default {
         wisId: this.wisId,
         answers: answers || this.answers,
       }]
+    },
+
+    fetchData() {
+      if (this.creator) {
+        requests.getAllAnswers(this.wisId)
+          .then(res => {
+            this.peopleData = res
+            this.reviewing = true;
+          })
+      } else {
+        requests.getUserAnswers(this.userId, this.wisId)
+          .then((res) => {
+            if (res && res.found) {
+              this.addPeopleData(res.answers)
+              this.reviewing = true;
+            } else {
+              this.answers = R.map(({ type }) => {
+                if (type == 'checkbox') return []
+                return ''
+              }, this.questions)
+              this.reviewing = false;
+            }
+          })
+      }
     },
 
     submit() {

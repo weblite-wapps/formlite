@@ -9,10 +9,12 @@ export default (vueRoot) => {
     vueRoot.name = name
     vueRoot.userId = id
     vueRoot.creator = creator
+    vueRoot.wisId = W.wisId
 
     if (title) vueRoot.formTitle = title
     if (questions) vueRoot.questions = questions
 
+    vueRoot.fetchData()
     W.start()
   })
 }
