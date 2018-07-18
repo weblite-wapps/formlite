@@ -11,5 +11,5 @@ export default (vueRoot) => {
   W.onChangeValue(({ key, value }) => {
     if (key === 'title') vueRoot.formTitle = value
   })
-  W.changeCustomize(({ title }) => { title, questions: vueRoot.questions })
+  W.changeCustomize(({ title }) => ({ title, questions: vueRoot.questions }))
 }
