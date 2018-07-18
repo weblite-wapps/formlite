@@ -5,12 +5,14 @@
     <div
       :class="$style.icon"
       @click="$refs.in.focus()"
-      :style="{'border-radius': borderRadius}"/>
+      :style="{'border-radius': borderRadius}"
+    />
 
     <input :class="$style.input" placeholder="choice"
       :value="title"
       @input="onInput($event.target.value)"
-      ref="in"/>
+      ref="in"
+    />
 
     <i
       :class="$style.delete"
@@ -39,7 +41,9 @@
     },
 
     computed: {
-      borderRadius: () => (this.type == 'radio') ? '10px' : '4px'
+      borderRadius() {
+        return this.type == 'radio' ? '10px' : '4px'
+      }
     }
   }
 </script>

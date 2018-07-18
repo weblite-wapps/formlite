@@ -10,7 +10,7 @@
       @input="editChoice(index, $event)"
       @choice-delete="deleteChoice($event)"
     />
-    <AddChoice @add-choice="addChoice"/>
+    <AddChoice @add-choice="add"/>
   </div>
 </template>
 
@@ -32,6 +32,12 @@
       editChoice: Function,
       addChoice: Function,
       deleteChoice: Function
+    },
+
+    methods: {
+      add() {
+        this.addChoice()
+      }
     },
 
     computed: {

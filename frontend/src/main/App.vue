@@ -60,12 +60,32 @@ export default {
   },
 
   data: () => ({
-    name: '',
-    userId: '',
-    wisId: '',
-    creator: false,
+    name: 'ali',
+    userId: '2',
+    wisId: '12',
+    creator: true,
     formTitle: 'Title',
-    questions: [],
+    questions: [{
+      title: 'question 1',
+      required: true,
+      type: 'checkbox',
+      choices: ['choice1', 'choice2', 'choice3']
+    }, {
+      title: 'question 2',
+      required: false,
+      type: 'text',
+      choices: []
+    }, {
+      title: 'question 3',
+      required: false,
+      type: 'toggle',
+      choices: []
+    }, {
+      title: 'question 4',
+      required: false,
+      type: 'radio',
+      choices: ['choice1', 'choice2', 'choice3']
+    }],
     reviewing: false,
     answers: [],
     currentQuestion: 0,
