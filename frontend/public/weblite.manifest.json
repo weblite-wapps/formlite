@@ -1,0 +1,21 @@
+{
+  "name": "formlite",
+  "id": "",
+  "instancable": true,
+  "creator": true,
+  "inline": true,
+  "shareDB": false,
+  "width": 352,
+  "height": 452,
+  "customizeArray": [{
+    "type": "text",
+    "name": "text",
+    "title": "Form",
+    "detail": { "text": "Customize your form." }
+  }],
+  "servIndexes": {
+    "inline": "index.main",
+    "main": "index.main",
+    "customize": "index.customize"
+  }
+}

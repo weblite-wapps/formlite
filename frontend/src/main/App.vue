@@ -106,7 +106,6 @@ export default {
     } else {
       requests.getUserAnswers(this.userId, this.wisId)
         .then((res) => {
-          console.log(this.questions)
           if (res.found) {
             this.addPeopleData(res.answers)
             this.reviewing = true;
@@ -148,9 +147,9 @@ export default {
       }
     },
 
-    editAnswer(index) { 
+    editAnswer(index) {
       return value => {
-        this.answers = R.assocPath([index], value, this.answers) 
+        this.answers = R.assocPath([index], value, this.answers)
       }
     },
   }
