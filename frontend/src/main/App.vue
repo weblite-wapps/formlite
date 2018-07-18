@@ -106,7 +106,7 @@ export default {
     } else {
       requests.getUserAnswers(this.userId, this.wisId)
         .then((res) => {
-          if (res.found) {
+          if (res && res.found) {
             this.addPeopleData(res.answers)
             this.reviewing = true;
           } else {
