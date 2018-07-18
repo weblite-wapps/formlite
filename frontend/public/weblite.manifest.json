@@ -8,6 +8,12 @@
   "width": 352,
   "height": 452,
   "customizeArray": [{
+    "type": "textField",
+    "name": "title",
+    "title": "Title",
+    "description": "Title",
+    "detail": { "placeholder": "title" }
+  },{
     "type": "text",
     "name": "text",
     "title": "Form",

@@ -4,13 +4,12 @@ const { W } = window
 
 export default (vueRoot) => {
   /* Load Data */
-  // get user
-  W.loadData().then(({ user: { name } }) => { vueRoot.name = name })
+  W.start()
 
 
-  /* ShareDB */
-  // get votes from shareDB Server
-  W.share.getFromServer([]).then(() => W.start())
-  // shareDB sunbscription
-  W.share.subscribe((todos) => { vueRoot.todos = todos || [] })
+  /* Customization */
+  W.onChangeValue(({ key, value }) => {
+    if (key === 'title') vueRoot.formTitle = value
+  })
+  W.changeCustomize(({ title }) => { title, questions: vueRoot.questions })
 }
