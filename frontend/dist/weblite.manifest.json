@@ -1,0 +1,28 @@
+{
+  "name": "formlite",
+  "id": "5b4f42f6e8ac737dd0225990",
+  "instancable": true,
+  "creator": true,
+  "inline": true,
+  "shareDB": false,
+  "userInfo": true,
+  "width": 352,
+  "height": 452,
+  "customizeArray": [{
+    "type": "textField",
+    "name": "title",
+    "title": "Title",
+    "description": "Title",
+    "detail": { "placeholder": "title" }
+  },{
+    "type": "text",
+    "name": "text",
+    "title": "Form",
+    "detail": { "text": "Customize your form." }
+  }],
+  "servIndexes": {
+    "inline": "index.main",
+    "main": "index.main",
+    "customize": "index.customize"
+  }
+}
