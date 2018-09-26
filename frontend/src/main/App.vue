@@ -77,6 +77,12 @@ export default {
         required: false,
         choices: ["1", "saadat"],
       },
+      {
+        title: "Text",
+        type: "text",
+        required: false,
+        choices: [],
+      },
     ],
     reviewing: false,
     answers: [],

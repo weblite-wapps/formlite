@@ -3,7 +3,7 @@
     <span :class="$style.title">
       {{ title }}
     </span>
-    <i :class="$style['form-icon']"> poll </i>
+    <i :class="$style['form-icon']"> description </i>
   </div>
 </template>
 
