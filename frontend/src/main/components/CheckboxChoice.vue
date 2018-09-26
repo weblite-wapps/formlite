@@ -35,17 +35,13 @@ export default {
   },
 
   methods: {
-    onInput(value) {
-      if (value) this.editAnswer(R.append(this.title, this.answer))
+    onInputClick() {
+      this.checkValue = !this.checkValue
+      if (checkValue) this.editAnswer(R.append(this.title, this.answer))
       else
         this.editAnswer(
           R.remove(R.indexOf(this.title, this.answer), 1, this.answer),
         )
-    },
-
-    onInputClick() {
-      this.checkValue = !this.checkValue
-      this.onInput(this.checkValue)
     },
   },
 }

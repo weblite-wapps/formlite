@@ -16,12 +16,6 @@ export default {
   props: {
     value: Boolean,
   },
-
-  data() {
-    return {}
-  },
-
-  methods: {},
 }
 </script>
 

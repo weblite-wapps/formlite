@@ -1,6 +1,6 @@
 <template>
   <div class="root">
-    <Header :title="formTitle" />
+    <Header :title="formTitle" :answers="answers" />
 
     <Questions
       :questions="questions"
@@ -59,31 +59,12 @@ export default {
   },
 
   data: () => ({
-    name: "ali",
+    name: "",
     userId: "",
     wisId: "",
     creator: false,
     formTitle: "Title",
-    questions: [
-      {
-        title: "Test121212",
-        type: "radio",
-        required: false,
-        choices: ["1", "saadat"],
-      },
-      {
-        title: "Tes212",
-        type: "checkbox",
-        required: false,
-        choices: ["1", "saadat"],
-      },
-      {
-        title: "Text",
-        type: "text",
-        required: false,
-        choices: [],
-      },
-    ],
+    questions: [],
     reviewing: false,
     answers: [],
     currentQuestion: 0,
