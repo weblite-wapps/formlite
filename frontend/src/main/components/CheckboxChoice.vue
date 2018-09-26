@@ -1,44 +1,58 @@
 <template>
   <div :class="$style.choice">
     <CheckBox
-      :valueInit="false"
-      @input="onInput($event)"
+      :value="checkValue"
+      :onInputClick="onInputClick"
     />
-    <div :class="$style.text"> {{title}} </div>
+  <div :class="$style.text"
+  @click="onInputClick">
+    {{title}}
+    </div>
   </div>
 </template>
 
 
 <script>
-  import CheckBox from '../helper/component/CheckBox'
+import CheckBox from "../helper/component/CheckBox"
 
-  const { R } = window
+const { R } = window
 
-  export default {
-    name: 'Choice',
+export default {
+  name: "Choice",
 
-    components: {
-      CheckBox
+  components: {
+    CheckBox,
+  },
+
+  data: () => ({
+    checkValue: false,
+  }),
+
+  props: {
+    title: String,
+    answer: Array,
+    editAnswer: Function,
+  },
+
+  methods: {
+    onInput(value) {
+      if (value) this.editAnswer(R.append(this.title, this.answer))
+      else
+        this.editAnswer(
+          R.remove(R.indexOf(this.title, this.answer), 1, this.answer),
+        )
     },
 
-    props:{
-      title: String,
-      answer: Array,
-      editAnswer: Function
+    onInputClick() {
+      this.checkValue = !this.checkValue
+      this.onInput(this.checkValue)
     },
-
-    methods: {
-      onInput(value) {
-        if (value) this.editAnswer(R.append(this.title, this.answer))
-        else this.editAnswer(R.remove(R.indexOf(this.title, this.answer), 1, this.answer))
-      }
-    }
-  }
+  },
+}
 </script>
 
 
 <style module>
-
 .choice {
   display: flex;
   margin-bottom: 10px;
@@ -48,7 +62,6 @@
 .text {
   color: rgb(104, 104, 104);
   margin-left: 8px;
-  cursor: default;
+  cursor: pointer;
 }
-
 </style>

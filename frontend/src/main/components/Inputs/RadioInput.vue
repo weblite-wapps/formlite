@@ -13,29 +13,29 @@
 
 
 <script>
-  import RadioChoice from '../RadioChoice'
+import RadioChoice from "../RadioChoice"
 
-  export default {
-    name: 'RadioInput',
+export default {
+  name: "RadioInput",
 
-    components: { RadioChoice },
+  components: { RadioChoice },
 
-    props:{
-      answer: String,
-      choices: Array,
-      editAnswer: Function
+  props: {
+    answer: String,
+    choices: Array,
+    editAnswer: Function,
+  },
+
+  data() {
+    return { selectedRadio: -1 }
+  },
+
+  methods: {
+    onRadioInput(radioIndex, value) {
+      this.selectedRadio = radioIndex
+      this.editAnswer(value)
     },
-
-    data() {
-      return { selectedRadio: -1 }
-    },
-
-    methods: {
-      onRadioInput(radioIndex, value) {
-        this.selectedRadio = radioIndex
-        this.editAnswer(value)
-      }
-    }
-  }
+  },
+}
 </script>
 

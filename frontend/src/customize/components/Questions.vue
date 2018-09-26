@@ -20,45 +20,42 @@
 
 
 <script>
-  //components
-  import Question from './Question'
-  import AddQuestion from './AddQuestion'
+//components
+import Question from "./Question"
+import AddQuestion from "./AddQuestion"
 
-  export default {
-    name: 'Questions',
+export default {
+  name: "Questions",
 
-    components: {
-      Question,
-      AddQuestion
-    },
+  components: {
+    Question,
+    AddQuestion,
+  },
 
-    props:{
-      questions: Array,
-      deleteQuestion: Function,
-      editChoice: Function,
-      addChoice: Function,
-      deleteChoice: Function,
-      addQuestion: Function,
-      changeQuestionRequired: Function,
-      moveQuestionUp: Function,
-      moveQuestionDown: Function
-    },
-  }
+  props: {
+    questions: Array,
+    deleteQuestion: Function,
+    editChoice: Function,
+    addChoice: Function,
+    deleteChoice: Function,
+    addQuestion: Function,
+    changeQuestionRequired: Function,
+    moveQuestionUp: Function,
+    moveQuestionDown: Function,
+  },
+}
 </script>
 
 
 <style module>
-
 .questions {
   display: flex;
   flex-direction: column;
   padding: 20px 20px 20px;
   overflow-y: auto;
-
 }
 
 ::-webkit-scrollbar {
   display: none;
 }
-
 </style>

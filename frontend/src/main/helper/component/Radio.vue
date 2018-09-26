@@ -10,28 +10,22 @@
 </template>
 
 <script>
+export default {
+  name: "Radio",
 
-  export default {
-    name: 'Radio',
+  props: {
+    value: Boolean,
+  },
 
-    props:{
-      value: Boolean
-    },
+  data() {
+    return {}
+  },
 
-    data() {
-      return {
-
-      }
-    },
-
-    methods: {
-      
-    }
-  }
+  methods: {},
+}
 </script>
 
 <style module>
-
 .root {
   width: 14px;
   height: 14px;
@@ -50,5 +44,4 @@
   font-weight: bolder;
   color: rgb(18, 138, 92);
 }
-
 </style>

@@ -7,11 +7,11 @@
 
 
 <script>
-  export default {
-    name: 'AddQuestion',
+export default {
+  name: "AddQuestion",
 
-    props: { addQuestion: Function }
-  }
+  props: { addQuestion: Function },
+}
 </script>
 
 

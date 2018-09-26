@@ -5,31 +5,33 @@
       @input="onInput"
     />
 
-    <div class="text">{{title}}</div>
+    <div class="text"  @click="onInput">{{title}}</div>
   </div>
 </template>
 
 
 <script>
-  import Radio from '../helper/component/Radio'
+import Radio from "../helper/component/Radio"
 
-  export default {
-    name: 'RadioChoice',
+export default {
+  name: "RadioChoice",
 
-    components: {
-      Radio
+  components: {
+    Radio,
+  },
+
+  props: {
+    title: String,
+    radioIndex: Number,
+    selectedRadio: Number,
+  },
+
+  methods: {
+    onInput() {
+      this.$emit("input")
     },
-
-    props:{
-      title: String,
-      radioIndex: Number,
-      selectedRadio: Number,
-    },
-
-    methods: {
-      onInput() { this.$emit('input') },
-    }
-  }
+  },
+}
 </script>
 
 
@@ -43,6 +45,6 @@
 .text {
   color: rgb(104, 104, 104);
   margin-left: 8px;
-  cursor: default;
+  cursor: pointer;
 }
 </style>
