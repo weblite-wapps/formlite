@@ -1,5 +1,5 @@
 <template>
-  <div :class="$style.root" @click="onClick">
+  <div :class="$style.root">
     <span :class="$style.title">
       {{ title }}
     </span>
@@ -9,24 +9,11 @@
 
 
 <script>
-//helper
-import {
-  checkQuestionsTitle,
-  checkQuestionsChoice,
-} from "../helper/function/checker"
-
 export default {
   name: "Header",
 
   props: {
     title: String,
-    questions: Array,
-  },
-
-  methods: {
-    onClick() {
-      console.log(checkQuestionsChoice(this.questions))
-    },
   },
 }
 </script>

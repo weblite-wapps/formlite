@@ -1,6 +1,6 @@
 <template>
 <div :class="$style.root">
-  <Header :title="wappTitle" :questions="questions" />
+  <Header :title="wappTitle"/>
   <FormHeader :formTitle="formTitle"/>
   <Questions
     :questions="questions"
