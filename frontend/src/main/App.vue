@@ -29,6 +29,7 @@
       :peopleData="peopleData"
       :questions="questions"
     />
+
   </div>
 </template>
 
@@ -62,14 +63,40 @@ export default {
     name: "",
     userId: "",
     wisId: "",
-    creator: false,
+    creator: true,
     formTitle: "Title",
-    questions: [],
-    reviewing: false,
+    questions: [
+      {
+        title: "q0",
+        type: "text",
+        required: false,
+        choices: [],
+      },
+      {
+        title: "q1",
+        type: "text",
+        required: false,
+        choices: [],
+      },
+    ],
+    reviewing: true,
     answers: [],
     currentQuestion: 0,
     transition: "nextlist",
-    peopleData: [],
+    peopleData: [
+      {
+        username: "armin",
+        userId: 0,
+        wisId: 12,
+        answers: ["ans0", "ans1"],
+      },
+      {
+        username: "mammad",
+        userId: 1,
+        wisId: 12,
+        answers: ["ans0", "ans1"],
+      },
+    ],
   }),
 
   created() {

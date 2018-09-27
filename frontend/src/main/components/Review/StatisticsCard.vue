@@ -1,7 +1,7 @@
 <template>
   <div :class="$style.root">
     <div :class="$style['req-text']" v-if="question.required"> required </div>
-    <div :class="$style.title" @click="changeShowingState(question)"> {{question.title}} </div>
+    <div :class="$style.title"> {{username}} </div>
     <div :class="$style.answer"> {{formattedAnswer}} </div> 
   </div>
 </template>
@@ -11,9 +11,9 @@ export default {
   name: "ReviewCard",
 
   props: {
-    question: Object,
+    username: String,
     answer: [String, Array],
-    changeShowingState: Function,
+    question: Object,
   },
 
   computed: {
