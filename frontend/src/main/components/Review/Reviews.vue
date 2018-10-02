@@ -24,7 +24,7 @@
         />
       </div>
 
-      <div v-if="showingStatistics">
+      <div :class="$style.answers" v-if="showingStatistics">
         <Statistics
         :selectedQuestion="selectedQuestion"
         :questions="questions"

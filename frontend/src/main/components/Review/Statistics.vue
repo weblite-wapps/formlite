@@ -1,13 +1,18 @@
 <template>
   <div>
-    <div :class="$style.questionTitle" @click="answersForChart()"> {{selectedQuestion.title}} </div>
-    <div :class="$style.answers">
-      <GChart
+    <div :class="$style.questionTitle" @click="dataForChart()"> {{selectedQuestion.title}} </div>
+      <!-- <GChart
         v-if="checkType()"
         type="ColumnChart"
         :data="answersForChart()"
         :options="chartOptions"
+      /> -->
+      <bar-chart
+        v-if="checkType()"
+        :data="dataForChart()"
+        :obtions="{}"
       />
+
       <StatisticsCard
         v-for="(user, i) in allUserAnswers(selectedIndex(selectedQuestion))"
         :key="i"
@@ -15,8 +20,7 @@
         :answer="user.answer"
         :question="selectedQuestion"
       />
-    </div>
-    <div @click="changeShowingState({})">
+    <div :class="$style.questionTitle" @click="changeShowingState({})">
       Back
     </div>
    </div>
@@ -28,12 +32,15 @@ import { GChart } from "vue-google-charts"
 
 //components
 import StatisticsCard from "./StatisticsCard"
+import BarChart from "./BarChart"
+
 export default {
   name: "Statistics",
 
   components: {
     StatisticsCard,
     GChart,
+    BarChart,
   },
 
   data() {
@@ -89,31 +96,43 @@ export default {
             R.equals(choice, answer)
           )
             acc++
-
           return acc
         }, 0)
-        return [choice || "no", number]
+        // return [choice || "no", number]
+        return number
       }
     },
 
-    answersForChart() {
+    numbersForChart() {
       const usersAnswers = this.allUserAnswers(
         this.selectedIndex(this.selectedQuestion),
       )
+
       if (
         this.selectedQuestion.type == "checkbox" ||
         this.selectedQuestion.type == "radio"
       ) {
-        return R.prepend(
-          ["choice", "selected"],
-          R.map(this.counter(usersAnswers), this.selectedQuestion.choices),
-        )
+        return R.map(this.counter(usersAnswers), this.selectedQuestion.choices)
       }
+
       if (this.selectedQuestion.type == "toggle") {
-        return R.prepend(
-          ["choice", "selected"],
-          R.map(this.counter(usersAnswers), ["yes", ""]),
-        )
+        return R.map(this.counter(usersAnswers), ["yes", ""])
+      }
+    },
+
+    dataForChart() {
+      return {
+        labels:
+          this.selectedQuestion.type == "toggle"
+            ? ["Yes", "No", ""]
+            : R.append("", this.selectedQuestion.choices),
+        datasets: [
+          {
+            label: "selected",
+            backgroundColor: "#f80112",
+            data: R.append(0, this.numbersForChart()),
+          },
+        ],
       }
     },
 
@@ -151,5 +170,9 @@ export default {
 .answers {
   padding: 10px 5px 0px;
   overflow-y: auto;
+}
+
+::-webkit-scrollbar {
+  display: none;
 }
 </style>
