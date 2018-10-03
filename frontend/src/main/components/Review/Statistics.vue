@@ -1,7 +1,9 @@
 <template>
   <div>
+    <div :class="$style.backIcon">
+    <i> reply </i>
+    </div>
     <div :class="$style.questionTitle"> {{selectedQuestion.title}} </div>
-    
       <pie-chart
         v-if="checkType()"
         :data="dataForChart"
@@ -17,7 +19,6 @@
       />
     <div :class="$style.questionTitle" @click="changeShowingState({})">
       Back
-    <i> reply </i>
     </div>
    </div>
 </template>
@@ -145,6 +146,14 @@ export default {
   cursor: pointer;
 }
 
+.backIcon {
+  position: fixed;
+  top: 320px;
+  right: 757px;
+  color: hsl(0, 0%, 42%);
+  font-size: 21px;
+  cursor: pointer;
+}
 .answers {
   padding: 10px 5px 0px;
   overflow-y: auto;
