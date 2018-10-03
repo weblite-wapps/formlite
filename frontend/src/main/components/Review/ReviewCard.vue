@@ -1,7 +1,7 @@
 <template>
-  <div :class="$style.root">
+  <div :class="$style.root"  @click="goToStatistics(question)">
     <div :class="$style['req-text']" v-if="question.required"> required </div>
-    <div :class="$style.title" @click="changeShowingState(question)"> {{question.title}} </div>
+    <div :class="$style.title"> {{question.title}} </div>
     <div :class="$style.answer"> {{formattedAnswer}} </div> 
   </div>
 </template>
@@ -13,7 +13,16 @@ export default {
   props: {
     question: Object,
     answer: [String, Array],
-    changeShowingState: Function,
+    state: String,
+    switchState: Function,
+    chooseQuestion: Function,
+  },
+
+  methods: {
+    goToStatistics(question) {
+      this.chooseQuestion(question)
+      this.switchState("statistics")
+    },
   },
 
   computed: {
@@ -35,6 +44,7 @@ export default {
   background: #ffffff;
   box-shadow: 0px 1px 7px -1px rgba(80, 80, 80, 0.37);
   padding: 10px 15px;
+  cursor: pointer;
 }
 
 .title {

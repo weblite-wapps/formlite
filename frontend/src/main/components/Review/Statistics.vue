@@ -2,7 +2,7 @@
   <div>
     <div :class="$style['question-title']"> {{selectedQuestion.title}} </div>
       <pie-chart
-        v-if="checkType()"
+        v-if="this.selectedQuestion.type != 'text'"
         :data="dataForChart"
         :obtions="{}"
       />
@@ -34,15 +34,9 @@ export default {
     selectedQuestion: Object,
     questions: Array,
     peopleData: Array,
-    changeShowingState: Function,
   },
 
   methods: {
-    checkType() {
-      if (this.selectedQuestion.type != "text") return true
-      return false
-    },
-
     mapper: index => user => ({
       username: user.username,
       userId: user.userId,
@@ -87,10 +81,15 @@ export default {
             label: "selected",
             backgroundColor: [
               "#f80112",
-              "#f11972",
+              "#f83299",
               "#f88819",
               "#f08819",
+              "#f11972",
+              "#f80112",
               "#f83299",
+              "#f88819",
+              "#f08819",
+              "#f11972",
             ],
             data: this.numbersForChart,
           },
@@ -135,9 +134,8 @@ export default {
 .question-title {
   color: hsl(0, 0%, 42%);
   font-size: 21px;
-  margin-bottom: 40px;
+  margin-bottom: 21px;
   text-align: center;
-  cursor: pointer;
 }
 
 .answers {

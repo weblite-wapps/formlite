@@ -1,13 +1,18 @@
 <template>
   <div class="root">
-    <Header :title="formTitle" :answers="answers" />
+    <Header
+      :title="formTitle"
+      :answers="answers"
+      :state="state"
+      :switchState="switchState"
+       />
 
     <Questions
       :questions="questions"
       :answers="answers"
       :currentQuestion="currentQuestion"
       :editAnswer="editAnswer"
-      v-if="!reviewing"
+      v-if="state == 'answering'"
     />
 
     <SnackBar/>
@@ -15,7 +20,7 @@
     <Actions
       :length="questions.length"
       :curIndex="currentQuestion"
-      v-if="!reviewing && !creator"
+      v-if="state == 'answering' && !creator"
       @next-hover="transition = 'nextlist'"
       @prev-hover="transition = 'prevlist'"
       @next="currentQuestion++"
@@ -24,7 +29,9 @@
     />
 
     <Reviews
-      v-if="reviewing"
+      v-if="state == 'reviewing' || state == 'statistics'"
+      :state="state"
+      :switchState="switchState"
       :creator="creator"
       :peopleData="peopleData"
       :questions="questions"
@@ -59,99 +66,115 @@ export default {
     Reviews,
   },
 
-  data: () => ({
-    name: "",
-    userId: "",
-    wisId: "",
-    creator: true,
-    formTitle: "Title",
-    questions: [
-      {
-        title: "checkboxQuestion",
-        type: "checkbox",
-        required: false,
-        choices: ["choice0", "choice1", "choice2"],
-      },
-      {
-        title: "radioQuestion",
-        type: "radio",
-        required: false,
-        choices: ["radio0", "radio1"],
-      },
-      {
-        title: "toggleQuestion",
-        type: "toggle",
-        required: false,
-        choices: [],
-      },
-      {
-        title: "textQuestion",
-        type: "text",
-        required: false,
-        choices: [],
-      },
-    ],
-    reviewing: true,
-    answers: [],
-    currentQuestion: 0,
-    transition: "nextlist",
-    peopleData: [
-      {
-        username: "armin",
-        userId: 0,
-        wisId: 12,
-        answers: [["choice0", "choice1"], "radio1", "", "salam mammad!"],
-      },
-      {
-        username: "hassan",
-        userId: 1,
-        wisId: 12,
-        answers: [["choice0", "choice1"], "radio1", "yes", "mammad chetori?"],
-      },
-      {
-        username: "sina",
-        userId: 2,
-        wisId: 12,
-        answers: [["choice2", "choice1"], "radio1", "", "mammad mammad"],
-      },
-      {
-        username: "javad",
-        userId: 3,
-        wisId: 12,
-        answers: [["choice2", "choice1"], "radio1", "", "manam khoobam."],
-      },
-      {
-        username: "amin",
-        userId: 4,
-        wisId: 12,
-        answers: [["choice0", "choice1"], "radio1", "", "mammad che khabara?"],
-      },
-      {
-        username: "reza",
-        userId: 5,
-        wisId: 12,
-        answers: [["choice0", "choice1"], "radio1", "", "mammad khodafez!"],
-      },
-      {
-        username: "mammad",
-        userId: 6,
-        wisId: 12,
-        answers: [["choice0"], "radio0", "yes", "mammad kam discussion bede."],
-      },
-      {
-        username: "ali",
-        userId: 7,
-        wisId: 12,
-        answers: [[], "radio1", "yes", ""],
-      },
-    ],
-  }),
+  data() {
+    return {
+      name: "",
+      userId: "",
+      wisId: "",
+      creator: true,
+      formTitle: "Title",
+      questions: [
+        {
+          title: "checkboxQuestion",
+          type: "checkbox",
+          required: false,
+          choices: ["choice0", "choice1", "choice2"],
+        },
+        {
+          title: "radioQuestion",
+          type: "radio",
+          required: false,
+          choices: ["radio0", "radio1"],
+        },
+        {
+          title: "toggleQuestion",
+          type: "toggle",
+          required: false,
+          choices: [],
+        },
+        {
+          title: "textQuestion",
+          type: "text",
+          required: false,
+          choices: [],
+        },
+      ],
+      state: "reviewing",
+      answers: [],
+      currentQuestion: 0,
+      transition: "nextlist",
+      peopleData: [
+        {
+          username: "armin",
+          userId: 0,
+          wisId: 12,
+          answers: [["choice0", "choice1"], "radio1", "", "salam mammad!"],
+        },
+        {
+          username: "hassan",
+          userId: 1,
+          wisId: 12,
+          answers: [["choice0", "choice1"], "radio1", "yes", "mammad chetori?"],
+        },
+        {
+          username: "sina",
+          userId: 2,
+          wisId: 12,
+          answers: [["choice2", "choice1"], "radio1", "", "mammad mammad"],
+        },
+        {
+          username: "javad",
+          userId: 3,
+          wisId: 12,
+          answers: [["choice2", "choice1"], "radio1", "", "manam khoobam."],
+        },
+        {
+          username: "amin",
+          userId: 4,
+          wisId: 12,
+          answers: [
+            ["choice0", "choice1"],
+            "radio1",
+            "",
+            "mammad che khabara?",
+          ],
+        },
+        {
+          username: "reza",
+          userId: 5,
+          wisId: 12,
+          answers: [["choice0", "choice1"], "radio1", "", "mammad khodafez!"],
+        },
+        {
+          username: "mammad",
+          userId: 6,
+          wisId: 12,
+          answers: [
+            ["choice0"],
+            "radio0",
+            "yes",
+            "mammad kam discussion bede.",
+          ],
+        },
+        {
+          username: "ali",
+          userId: 7,
+          wisId: 12,
+          answers: [[], "radio1", "yes", ""],
+        },
+      ],
+    }
+  },
 
   created() {
     W && webliteHandler(this)
   },
 
   methods: {
+    switchState(state) {
+      this.state = state
+    },
+
     addPeopleData(answers) {
       this.peopleData = [
         {
@@ -167,7 +190,7 @@ export default {
       if (this.creator) {
         requests.getAllAnswers(this.wisId).then(res => {
           this.peopleData = res
-          this.reviewing = true
+          this.state = "reviewing"
         })
       } else {
         requests.getUserAnswers(this.userId, this.wisId).then(res => {
@@ -179,7 +202,7 @@ export default {
               if (type == "checkbox") return []
               return ""
             }, this.questions)
-            this.reviewing = false
+            this.state = "answering"
           }
         })
       }
@@ -204,7 +227,7 @@ export default {
           .postAnswers(this.name, this.userId, this.wisId, this.answers)
           .then(() => {
             this.addPeopleData()
-            this.reviewing = true
+            this.state = "reviewing"
             bus.$emit("show-message", "Submitted ...")
           })
       }

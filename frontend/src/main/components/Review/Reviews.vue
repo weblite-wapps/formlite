@@ -2,8 +2,8 @@
   <div :class="$style.root">
     <div :class="$style.reviews" v-if="peopleData.length != 0">
       <div :class="$style.users" v-if="creator">
-        <div :class="$style['select-text']" v-if="!showingStatistics"> User : </div>
-        <select :class="$style.select" v-if="!showingStatistics" v-model="currentUser">
+        <div :class="$style['select-text']" v-if="state == 'reviewing'"> User : </div>
+        <select :class="$style.select" v-if="state == 'reviewing'" v-model="currentUser">
           <option
             v-for="(data, i) in peopleData"
             :key="i"
@@ -12,24 +12,25 @@
         </select>
       </div>
 
-      <div :class="$style.splitter" v-if="creator && !showingStatistics" />
+      <div :class="$style.splitter" v-if="creator && state == 'reviewing'" />
 
-      <div :class="$style.answers" v-if="!showingStatistics">
+      <div :class="$style.answers" v-if="state == 'reviewing'">
         <ReviewCard
           v-for="(q, i) in questions"
           :key="i"
           :question="q"
           :answer="answers[i]"
-          :changeShowingState="changeShowingState"
+          :state="state"
+          :switchState="switchState"
+          :chooseQuestion="chooseQuestion"
         />
       </div>
 
-      <div :class="$style.answers" v-if="showingStatistics">
+      <div :class="$style.answers" v-if="state === 'statistics'">
         <Statistics
         :selectedQuestion="selectedQuestion"
         :questions="questions"
         :peopleData="peopleData"
-        :changeShowingState="changeShowingState"
         />
       </div>
 
@@ -46,9 +47,6 @@
 import ReviewCard from "./ReviewCard"
 import Statistics from "./Statistics"
 
-//helper
-import bus from "../../helper/function/bus"
-
 export default {
   name: "Reviews",
 
@@ -61,28 +59,20 @@ export default {
     creator: Boolean,
     peopleData: Array,
     questions: Array,
+    state: String,
+    switchState: Function,
   },
 
   data() {
     return {
       currentUser: 0,
-      showingStatistics: false,
       selectedQuestion: {},
-      busStuff: "busStuff",
     }
   },
 
-  created() {
-    bus.$on("backIcon-hide", () => this.changeShowingState({}))
-  },
-
   methods: {
-    changeShowingState(question) {
-      if (this.creator) {
-        this.showingStatistics = !this.showingStatistics
-        this.selectedQuestion = question || {}
-        bus.$emit("backIcon-show", this.showingStatistics)
-      }
+    chooseQuestion(question) {
+      if (this.creator) this.selectedQuestion = question || {}
     },
   },
 

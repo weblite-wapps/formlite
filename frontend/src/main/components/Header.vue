@@ -3,38 +3,19 @@
     <span :class="$style.title">
       {{ title }}
     </span>
-    <i :class="$style['back-icon']" v-if="showBackIcon" @click="changeShowingState"> reply </i>
+    <i :class="$style['back-icon']" v-if="state == 'statistics'" @click="switchState('reviewing')"> reply </i>
   </div>
 </template>
 
 
 <script>
-//helper
-import bus from "../helper/function/bus"
 export default {
   name: "Header",
 
-  data() {
-    return {
-      showBackIcon: false,
-    }
-  },
   props: {
     title: String,
-  },
-
-  created() {
-    bus.$on(
-      "backIcon-show",
-      showingStatistics => (this.showBackIcon = showingStatistics),
-    )
-  },
-
-  methods: {
-    changeShowingState() {
-      this.showBackIcon = false
-      bus.$emit("backIcon-hide", this.showbackIcon)
-    },
+    state: String,
+    switchState: Function,
   },
 }
 </script>
