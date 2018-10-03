@@ -1,9 +1,6 @@
 <template>
   <div>
-    <div :class="$style.backIcon" @click="changeShowingState({})">
-    <i> reply </i>
-    </div>
-    <div :class="$style.questionTitle"> {{selectedQuestion.title}} </div>
+    <div :class="$style['question-title']"> {{selectedQuestion.title}} </div>
       <pie-chart
         v-if="checkType()"
         :data="dataForChart"
@@ -135,7 +132,7 @@ export default {
 </script>
 
 <style module>
-.questionTitle {
+.question-title {
   color: hsl(0, 0%, 42%);
   font-size: 21px;
   margin-bottom: 40px;
@@ -143,14 +140,6 @@ export default {
   cursor: pointer;
 }
 
-.backIcon {
-  position: fixed;
-  top: 277px;
-  right: 757px;
-  color: white;
-  font-size: 21px;
-  cursor: pointer;
-}
 .answers {
   padding: 10px 5px 0px;
   overflow-y: auto;

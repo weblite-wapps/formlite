@@ -3,6 +3,7 @@
     <span :class="$style.title">
       {{ title }}
     </span>
+    <i :class="$style['back-icon']" v-if="showBackIcon" @click="changeShowingState"> reply </i>
   </div>
 </template>
 
@@ -13,8 +14,27 @@ import bus from "../helper/function/bus"
 export default {
   name: "Header",
 
+  data() {
+    return {
+      showBackIcon: false,
+    }
+  },
   props: {
     title: String,
+  },
+
+  created() {
+    bus.$on(
+      "backIcon-show",
+      showingStatistics => (this.showBackIcon = showingStatistics),
+    )
+  },
+
+  methods: {
+    changeShowingState() {
+      this.showBackIcon = false
+      bus.$emit("backIcon-hide", this.showbackIcon)
+    },
   },
 }
 </script>
@@ -36,8 +56,9 @@ export default {
   color: white;
 }
 
-.form-icon {
-  margin-right: 20px;
+.back-icon {
+  margin: 12px;
+  font-size: 26px;
   color: white;
 }
 </style>

@@ -72,11 +72,16 @@ export default {
     }
   },
 
+  created() {
+    bus.$on("backIcon-hide", () => this.changeShowingState({}))
+  },
+
   methods: {
     changeShowingState(question) {
       if (this.creator) {
         this.showingStatistics = !this.showingStatistics
         this.selectedQuestion = question || {}
+        bus.$emit("backIcon-show", this.showingStatistics)
       }
     },
   },
