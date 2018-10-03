@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div :class="$style.backIcon">
+    <div :class="$style.backIcon" @click="changeShowingState({})">
     <i> reply </i>
     </div>
     <div :class="$style.questionTitle"> {{selectedQuestion.title}} </div>
@@ -17,9 +17,6 @@
         :answer="user.answer"
         :question="selectedQuestion"
       />
-    <div :class="$style.questionTitle" @click="changeShowingState({})">
-      Back
-    </div>
    </div>
 </template>
 
@@ -148,9 +145,9 @@ export default {
 
 .backIcon {
   position: fixed;
-  top: 320px;
+  top: 277px;
   right: 757px;
-  color: hsl(0, 0%, 42%);
+  color: white;
   font-size: 21px;
   cursor: pointer;
 }
