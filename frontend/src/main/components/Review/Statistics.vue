@@ -1,20 +1,15 @@
 <template>
   <div>
-    <div :class="$style.questionTitle" @click="dataForChart()"> {{selectedQuestion.title}} </div>
-      <!-- <GChart
+    <div :class="$style.questionTitle"> {{selectedQuestion.title}} </div>
+    
+      <pie-chart
         v-if="checkType()"
-        type="ColumnChart"
-        :data="answersForChart()"
-        :options="chartOptions"
-      /> -->
-      <bar-chart
-        v-if="checkType()"
-        :data="dataForChart()"
+        :data="dataForChart"
         :obtions="{}"
       />
 
       <StatisticsCard
-        v-for="(user, i) in allUserAnswers(selectedIndex(selectedQuestion))"
+        v-for="(user, i) in allUserAnswers(selectedIndex)"
         :key="i"
         :username="user.username"
         :answer="user.answer"
@@ -22,44 +17,22 @@
       />
     <div :class="$style.questionTitle" @click="changeShowingState({})">
       Back
+    <i> reply </i>
     </div>
    </div>
 </template>
 
 <script>
-//library
-import { GChart } from "vue-google-charts"
-
 //components
 import StatisticsCard from "./StatisticsCard"
-import BarChart from "./BarChart"
+import PieChart from "../../helper/chart/PieChart"
 
 export default {
   name: "Statistics",
 
   components: {
     StatisticsCard,
-    GChart,
-    BarChart,
-  },
-
-  data() {
-    return {
-      answers: {},
-      chartData: [
-        ["Year", "Sale"],
-        ["2014", 1000],
-        ["2015", 1170],
-        ["2016", 660],
-        ["2017", 1030],
-      ],
-      chartOptions: {
-        chart: {
-          title: "Company Performance",
-          subtitle: "Sales, Expenses, and Profit: 2014-2017",
-        },
-      },
-    }
+    PieChart,
   },
 
   props: {
@@ -98,14 +71,45 @@ export default {
             acc++
           return acc
         }, 0)
-        // return [choice || "no", number]
         return number
       }
     },
 
+    allUserAnswers(index) {
+      return R.map(this.mapper(index), this.peopleData)
+    },
+  },
+
+  computed: {
+    dataForChart() {
+      return {
+        labels:
+          this.selectedQuestion.type == "toggle"
+            ? ["Yes", "No"]
+            : this.selectedQuestion.choices,
+        datasets: [
+          {
+            label: "selected",
+            backgroundColor: [
+              "#f80112",
+              "#f11972",
+              "#f88819",
+              "#f08819",
+              "#f83299",
+            ],
+            data: this.numbersForChart,
+          },
+        ],
+      }
+    },
+
+    selectedIndex() {
+      return R.indexOf(this.selectedQuestion, this.questions)
+    },
+
     numbersForChart() {
       const usersAnswers = this.allUserAnswers(
-        this.selectedIndex(this.selectedQuestion),
+        R.indexOf(this.selectedQuestion, this.questions),
       )
 
       if (
@@ -120,35 +124,6 @@ export default {
       }
     },
 
-    dataForChart() {
-      return {
-        labels:
-          this.selectedQuestion.type == "toggle"
-            ? ["Yes", "No", ""]
-            : R.append("", this.selectedQuestion.choices),
-        datasets: [
-          {
-            label: "selected",
-            backgroundColor: "#f80112",
-            data: R.append(0, this.numbersForChart()),
-          },
-        ],
-      }
-    },
-
-    allUserAnswers(index) {
-      return R.map(this.mapper(index), this.peopleData)
-    },
-
-    selectedIndex() {
-      return this.questions.reduce((acc, question, i) => {
-        if (R.equals(this.selectedQuestion, question)) return i
-        return acc
-      }, -1)
-    },
-  },
-
-  computed: {
     formattedAnswer() {
       if (this.question.type == "text") return this.answer
       else if (this.question.type == "toggle") {
@@ -164,7 +139,10 @@ export default {
 <style module>
 .questionTitle {
   color: hsl(0, 0%, 42%);
+  font-size: 21px;
+  margin-bottom: 40px;
   text-align: center;
+  cursor: pointer;
 }
 
 .answers {

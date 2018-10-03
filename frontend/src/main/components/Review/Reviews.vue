@@ -12,7 +12,7 @@
         </select>
       </div>
 
-      <div :class="$style.splitter" v-if="creator" />
+      <div :class="$style.splitter" v-if="creator && !showingStatistics" />
 
       <div :class="$style.answers" v-if="!showingStatistics">
         <ReviewCard
@@ -46,6 +46,9 @@
 import ReviewCard from "./ReviewCard"
 import Statistics from "./Statistics"
 
+//helper
+import bus from "../../helper/function/bus"
+
 export default {
   name: "Reviews",
 
@@ -65,6 +68,7 @@ export default {
       currentUser: 0,
       showingStatistics: false,
       selectedQuestion: {},
+      busStuff: "busStuff",
     }
   },
 
@@ -73,7 +77,6 @@ export default {
       if (this.creator) {
         this.showingStatistics = !this.showingStatistics
         this.selectedQuestion = question || {}
-        console.log("clicked")
       }
     },
   },

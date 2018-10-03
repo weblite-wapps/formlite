@@ -8,6 +8,8 @@
 
 
 <script>
+//helper
+import bus from "../helper/function/bus"
 export default {
   name: "Header",
 
@@ -26,7 +28,6 @@ export default {
   align-items: center;
   justify-content: space-between;
   background-color: #588c7e;
-  /* border-radius: 5px; */
 }
 
 .title {

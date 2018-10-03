@@ -11,8 +11,7 @@
     "chart.js": "^2.7.2",
     "superagent": "^3.8.3",
     "vue": "^2.5.16",
-    "vue-chartjs": "^3.4.0",
-    "vue-google-charts": "^0.3.1"
+    "vue-chartjs": "^3.4.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.0.0-rc.5",

@@ -1,7 +1,7 @@
-import { Bar } from "vue-chartjs"
+import { Pie } from "vue-chartjs"
 
 export default {
-  extends: Bar,
+  extends: Pie,
 
   props: {
     data: Object,
@@ -16,7 +16,7 @@ export default {
           {
             label: "Data One",
             backgroundColor: "#f80112",
-            dataq: [40, 30, 0],
+            data: [40, 30, 0],
           },
         ],
       },
