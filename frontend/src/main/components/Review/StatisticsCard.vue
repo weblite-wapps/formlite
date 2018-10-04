@@ -19,11 +19,11 @@ export default {
   computed: {
     formattedAnswer() {
       if (this.question.type == "text") return this.answer
-      else if (this.question.type == "toggle") {
+      if (this.question.type == "toggle") {
         if (this.answer == "") return "No"
-        else if (this.answer == "yes") return "Yes"
+        if (this.answer == "yes") return "Yes"
       } else if (this.question.type == "radio") return this.answer
-      else if (this.question.type == "checkbox") return this.answer.join(" , ")
+      if (this.question.type == "checkbox") return this.answer.join(" , ")
     },
   },
 }

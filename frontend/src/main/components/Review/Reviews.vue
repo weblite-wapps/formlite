@@ -1,35 +1,36 @@
 <template>
   <div :class="$style.root">
     <div :class="$style.reviews" v-if="peopleData.length != 0">
-      <div :class="$style.users" v-if="creator">
-        <div :class="$style['select-text']" v-if="state == 'reviewing'"> User : </div>
-        <select :class="$style.select" v-if="state == 'reviewing'" v-model="currentUser">
-          <option
-            v-for="(data, i) in peopleData"
+      <div v-if="state == 'reviewing'">
+        <div :class="$style.users" v-if="creator">
+          <div :class="$style['select-text']"> User : </div>
+          <select :class="$style.select" v-model="currentUser">
+            <option
+              v-for="(data, i) in peopleData"
+              :key="i"
+              :value="i"
+            > {{data.username}} </option>
+          </select>
+        </div>
+
+        <div :class="$style.splitter" v-if="creator"/>
+
+        <div :class="$style.answers">
+          <ReviewCard
+            v-for="(q, i) in questions"
             :key="i"
-            :value="i"
-          > {{data.username}} </option>
-        </select>
-      </div>
-
-      <div :class="$style.splitter" v-if="creator && state == 'reviewing'" />
-
-      <div :class="$style.answers" v-if="state == 'reviewing'">
-        <ReviewCard
-          v-for="(q, i) in questions"
-          :key="i"
-          :question="q"
-          :answer="answers[i]"
-          :state="state"
-          :switchState="switchState"
-          :chooseQuestion="chooseQuestion"
-        />
+            :question="q"
+            :answer="answers[i]"
+            :switchState="switchState"
+            :chooseQuestion="chooseQuestion"
+          />
+        </div>
       </div>
 
       <div :class="$style.answers" v-if="state === 'statistics'">
         <Statistics
         :selectedQuestion="selectedQuestion"
-        :questions="questions"
+        :selectedQuestionIndex="selectedQuestionIndex"
         :peopleData="peopleData"
         />
       </div>
@@ -67,12 +68,19 @@ export default {
     return {
       currentUser: 0,
       selectedQuestion: {},
+      selectedQuestionIndex: -1,
     }
   },
 
   methods: {
     chooseQuestion(question) {
-      if (this.creator) this.selectedQuestion = question || {}
+      if (this.creator) {
+        this.selectedQuestion = question || {}
+        this.selectedQuestionIndex = R.indexOf(
+          this.selectedQuestion,
+          this.questions,
+        )
+      }
     },
   },
 

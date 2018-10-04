@@ -8,7 +8,7 @@
       />
 
       <StatisticsCard
-        v-for="(user, i) in allUserAnswers(selectedIndex)"
+        v-for="(user, i) in allUserAnswers(selectedQuestionIndex)"
         :key="i"
         :username="user.username"
         :answer="user.answer"
@@ -32,17 +32,11 @@ export default {
 
   props: {
     selectedQuestion: Object,
-    questions: Array,
+    selectedQuestionIndex: Number,
     peopleData: Array,
   },
 
   methods: {
-    mapper: index => user => ({
-      username: user.username,
-      userId: user.userId,
-      answer: user.answers[index],
-    }),
-
     counter(usersAnswers) {
       return choice => {
         const number = usersAnswers.reduce((acc, { answer }) => {
@@ -65,7 +59,12 @@ export default {
     },
 
     allUserAnswers(index) {
-      return R.map(this.mapper(index), this.peopleData)
+      const mapper = index => user => ({
+        username: user.username,
+        userId: user.userId,
+        answer: user.answers[index],
+      })
+      return R.map(mapper(index), this.peopleData)
     },
   },
 
@@ -97,14 +96,8 @@ export default {
       }
     },
 
-    selectedIndex() {
-      return R.indexOf(this.selectedQuestion, this.questions)
-    },
-
     numbersForChart() {
-      const usersAnswers = this.allUserAnswers(
-        R.indexOf(this.selectedQuestion, this.questions),
-      )
+      const usersAnswers = this.allUserAnswers(this.selectedQuestionIndex)
 
       if (
         this.selectedQuestion.type == "checkbox" ||
@@ -116,15 +109,6 @@ export default {
       if (this.selectedQuestion.type == "toggle") {
         return R.map(this.counter(usersAnswers), ["yes", ""])
       }
-    },
-
-    formattedAnswer() {
-      if (this.question.type == "text") return this.answer
-      else if (this.question.type == "toggle") {
-        if (this.answer == "") return "No"
-        else if (this.answer == "yes") return "Yes"
-      } else if (this.question.type == "radio") return this.answer
-      else if (this.question.type == "checkbox") return this.answer.join(" , ")
     },
   },
 }

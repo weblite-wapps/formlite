@@ -2,7 +2,6 @@
   <div class="root">
     <Header
       :title="formTitle"
-      :answers="answers"
       :state="state"
       :switchState="switchState"
        />
@@ -71,98 +70,14 @@ export default {
       name: "",
       userId: "",
       wisId: "",
-      creator: true,
+      creator: false,
       formTitle: "Title",
-      questions: [
-        {
-          title: "checkboxQuestion",
-          type: "checkbox",
-          required: false,
-          choices: ["choice0", "choice1", "choice2"],
-        },
-        {
-          title: "radioQuestion",
-          type: "radio",
-          required: false,
-          choices: ["radio0", "radio1"],
-        },
-        {
-          title: "toggleQuestion",
-          type: "toggle",
-          required: false,
-          choices: [],
-        },
-        {
-          title: "textQuestion",
-          type: "text",
-          required: false,
-          choices: [],
-        },
-      ],
-      state: "reviewing",
+      questions: [],
+      state: "answering",
       answers: [],
       currentQuestion: 0,
       transition: "nextlist",
-      peopleData: [
-        {
-          username: "armin",
-          userId: 0,
-          wisId: 12,
-          answers: [["choice0", "choice1"], "radio1", "", "salam mammad!"],
-        },
-        {
-          username: "hassan",
-          userId: 1,
-          wisId: 12,
-          answers: [["choice0", "choice1"], "radio1", "yes", "mammad chetori?"],
-        },
-        {
-          username: "sina",
-          userId: 2,
-          wisId: 12,
-          answers: [["choice2", "choice1"], "radio1", "", "mammad mammad"],
-        },
-        {
-          username: "javad",
-          userId: 3,
-          wisId: 12,
-          answers: [["choice2", "choice1"], "radio1", "", "manam khoobam."],
-        },
-        {
-          username: "amin",
-          userId: 4,
-          wisId: 12,
-          answers: [
-            ["choice0", "choice1"],
-            "radio1",
-            "",
-            "mammad che khabara?",
-          ],
-        },
-        {
-          username: "reza",
-          userId: 5,
-          wisId: 12,
-          answers: [["choice0", "choice1"], "radio1", "", "mammad khodafez!"],
-        },
-        {
-          username: "mammad",
-          userId: 6,
-          wisId: 12,
-          answers: [
-            ["choice0"],
-            "radio0",
-            "yes",
-            "mammad kam discussion bede.",
-          ],
-        },
-        {
-          username: "ali",
-          userId: 7,
-          wisId: 12,
-          answers: [[], "radio1", "yes", ""],
-        },
-      ],
+      peopleData: [],
     }
   },
 
@@ -194,7 +109,7 @@ export default {
         })
       } else {
         requests.getUserAnswers(this.userId, this.wisId).then(res => {
-          if (res && res.found) {
+          if (R.prop("found", res)) {
             this.addPeopleData(res.answers)
             this.reviewing = true
           } else {
