@@ -1,5 +1,5 @@
 <template>
-  <div :class="$style.root"  @click="goToStatistics(question)">
+  <div :class="$style.root"  @click="goToStatistics()">
     <div :class="$style['req-text']" v-if="question.required"> required </div>
     <div :class="$style.title"> {{question.title}} </div>
     <div :class="$style.answer"> {{formattedAnswer}} </div> 
@@ -12,14 +12,15 @@ export default {
 
   props: {
     question: Object,
+    questionIndex: Number,
     answer: [String, Array],
     switchState: Function,
     chooseQuestion: Function,
   },
 
   methods: {
-    goToStatistics(question) {
-      this.chooseQuestion(question)
+    goToStatistics() {
+      this.chooseQuestion(this.questionIndex)
       this.switchState("statistics")
     },
   },

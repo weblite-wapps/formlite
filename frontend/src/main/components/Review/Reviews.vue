@@ -19,6 +19,7 @@
           <ReviewCard
             v-for="(q, i) in questions"
             :key="i"
+            :questionIndex="i"
             :question="q"
             :answer="answers[i]"
             :switchState="switchState"
@@ -73,13 +74,10 @@ export default {
   },
 
   methods: {
-    chooseQuestion(question) {
+    chooseQuestion(index) {
       if (this.creator) {
-        this.selectedQuestion = question || {}
-        this.selectedQuestionIndex = R.indexOf(
-          this.selectedQuestion,
-          this.questions,
-        )
+        this.selectedQuestion = this.questions[index] || {}
+        this.selectedQuestionIndex = index
       }
     },
   },
