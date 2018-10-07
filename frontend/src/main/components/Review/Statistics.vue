@@ -4,7 +4,6 @@
       <pie-chart
         v-if="this.selectedQuestion.type != 'text'"
         :data="dataForChart"
-        :obtions="{}"
       />
 
       <StatisticsCard
@@ -22,6 +21,19 @@
 import StatisticsCard from "./StatisticsCard"
 import PieChart from "../../helper/chart/PieChart"
 
+const backgroundColor = [
+  "#f80112",
+  "#f83299",
+  "#f88819",
+  "#f08819",
+  "#f11972",
+  "#f80112",
+  "#f83299",
+  "#f88819",
+  "#f08819",
+  "#f11972",
+]
+
 export default {
   name: "Statistics",
 
@@ -37,78 +49,47 @@ export default {
   },
 
   methods: {
-    counter(usersAnswers) {
-      return choice => {
-        const number = usersAnswers.reduce((acc, { answer }) => {
-          if (
-            this.selectedQuestion.type == "checkbox" &&
-            R.indexOf(choice, answer) != -1
-          )
-            acc++
-          if (this.selectedQuestion.type == "radio" && R.equals(choice, answer))
-            acc++
-          if (
-            this.selectedQuestion.type == "toggle" &&
-            R.equals(choice, answer)
-          )
-            acc++
-          return acc
-        }, 0)
-        return number
-      }
+    counterCreator(usersAnswers) {
+      return choice => usersAnswers.reduce((acc, { answer }) => {
+        const { type } = this.selectedQuestion
+
+        if (
+          (type === "checkbox" && ~R.indexOf(choice, answer)) ||
+          (type === "radio" && R.equals(choice, answer)) ||
+          (type === "toggle" && R.equals(choice, answer))
+        ) return acc + 1
+        return acc
+      }, 0)
     },
 
     allUserAnswers(index) {
-      const mapper = index => user => ({
-        username: user.username,
-        userId: user.userId,
-        answer: user.answers[index],
-      })
-      return R.map(mapper(index), this.peopleData)
+      return R.map(
+        R.applySpec({
+          username: R.prop('username'),
+          userId: R.prop('userId'),
+          answer: R.path(['answers', index]),
+        }),
+        this.peopleData,
+      )
     },
   },
 
   computed: {
     dataForChart() {
+      const { type, choices } = this.selectedQuestion
       return {
-        labels:
-          this.selectedQuestion.type == "toggle"
-            ? ["Yes", "No"]
-            : this.selectedQuestion.choices,
-        datasets: [
-          {
-            label: "selected",
-            backgroundColor: [
-              "#f80112",
-              "#f83299",
-              "#f88819",
-              "#f08819",
-              "#f11972",
-              "#f80112",
-              "#f83299",
-              "#f88819",
-              "#f08819",
-              "#f11972",
-            ],
-            data: this.numbersForChart,
-          },
-        ],
+        labels:  type == "toggle" ? ["Yes", "No"] : choices,
+        datasets: [{ backgroundColor, data: this.numbersForChart }],
       }
     },
 
     numbersForChart() {
+      const { type, choices } = this.selectedQuestion
       const usersAnswers = this.allUserAnswers(this.selectedQuestionIndex)
+      const counter = R.map(this.counterCreator(usersAnswers))
 
-      if (
-        this.selectedQuestion.type == "checkbox" ||
-        this.selectedQuestion.type == "radio"
-      ) {
-        return R.map(this.counter(usersAnswers), this.selectedQuestion.choices)
-      }
-
-      if (this.selectedQuestion.type == "toggle") {
-        return R.map(this.counter(usersAnswers), ["yes", ""])
-      }
+      if (type == "checkbox" || type == "radio") return counter(choices)
+      if (type == "toggle") return counter(["yes", ""])
     },
   },
 }

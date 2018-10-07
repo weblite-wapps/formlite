@@ -35,7 +35,6 @@
       :peopleData="peopleData"
       :questions="questions"
     />
-
   </div>
 </template>
 
@@ -67,17 +66,59 @@ export default {
 
   data() {
     return {
-      name: "",
-      userId: "",
-      wisId: "",
-      creator: false,
-      formTitle: "Title",
-      questions: [],
-      state: "answering",
+      name: "ali",
+      userId: "a",
+      wisId: "1",
+      creator: true,
+      formTitle: "test",
+      questions: [
+        {
+          title: "toggle",
+          type: "toggle",
+          required: true,
+        },
+        {
+          title: "checkbox",
+          type: "checkbox",
+          required: false,
+          choices: ["b1", "b2", "b3", "b4"],
+        },
+        {
+          title: "radio",
+          type: "radio",
+          required: false,
+          choices: ["r1", "r2", "r3", "r4"],
+        },
+        {
+          title: "text",
+          type: "text",
+          required: false,
+        },
+      ],
+      state: "statistics",
       answers: [],
       currentQuestion: 0,
       transition: "nextlist",
-      peopleData: [],
+      peopleData: [
+        {
+          username: 'ali',
+          userId: 'a',
+          wisId: '1',
+          answers: ['yes', ['b2', 'b3'], 'r1', 'ali asgary'],
+        },
+        {
+          username: 'armin',
+          userId: 'r',
+          wisId: '1',
+          answers: ['', ['b1', 'b3'], 'r3', 'armin saadat'],
+        },
+        {
+          username: 'mohammad',
+          userId: 'm',
+          wisId: '1',
+          answers: ['yes', ['b3'], 'r3', 'mohammad ghanbari'],
+        },
+      ],
     }
   },
 

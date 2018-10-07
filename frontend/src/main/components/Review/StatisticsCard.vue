@@ -18,12 +18,14 @@ export default {
 
   computed: {
     formattedAnswer() {
-      if (this.question.type == "text") return this.answer
-      if (this.question.type == "toggle") {
-        if (this.answer == "") return "No"
-        if (this.answer == "yes") return "Yes"
-      } else if (this.question.type == "radio") return this.answer
-      if (this.question.type == "checkbox") return this.answer.join(" , ")
+      const { question: { type }, answer } = this
+
+      if (type == "text") return answer
+      if (type == "toggle") {
+        if (answer == "") return "No"
+        if (answer == "yes") return "Yes"
+      } else if (type == "radio") return answer
+      if (type == "checkbox") return answer.join(" , ")
     },
   },
 }

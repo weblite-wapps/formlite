@@ -1,5 +1,5 @@
 <template>
-  <div :class="$style.root"  @click="goToStatistics()">
+  <div :class="$style.root" @click="goToStatistics()">
     <div :class="$style['req-text']" v-if="question.required"> required </div>
     <div :class="$style.title"> {{question.title}} </div>
     <div :class="$style.answer"> {{formattedAnswer}} </div> 
