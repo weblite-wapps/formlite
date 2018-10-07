@@ -95,7 +95,7 @@ export default {
           required: false,
         },
       ],
-      state: "statistics",
+      state: "reviewing",
       answers: [],
       currentQuestion: 0,
       transition: "nextlist",
@@ -127,9 +127,7 @@ export default {
   },
 
   methods: {
-    switchState(state) {
-      this.state = state
-    },
+    switchState(state) { this.state = state },
 
     addPeopleData(answers) {
       this.peopleData = [
@@ -146,19 +144,18 @@ export default {
       if (this.creator) {
         requests.getAllAnswers(this.wisId).then(res => {
           this.peopleData = res
-          this.state = "reviewing"
+          switchState("reviewing")
         })
       } else {
         requests.getUserAnswers(this.userId, this.wisId).then(res => {
           if (R.prop("found", res)) {
             this.addPeopleData(res.answers)
-            this.reviewing = true
           } else {
-            this.answers = R.map(({ type }) => {
-              if (type == "checkbox") return []
-              return ""
-            }, this.questions)
-            this.state = "answering"
+            this.answers = R.map(
+              ({ type }) => (type === "checkbox") ? [] : '',
+              this.questions,
+            )
+            switchState("answering")
           }
         })
       }
@@ -183,7 +180,7 @@ export default {
           .postAnswers(this.name, this.userId, this.wisId, this.answers)
           .then(() => {
             this.addPeopleData()
-            this.state = "reviewing"
+            switchState("reviewing")
             bus.$emit("show-message", "Submitted ...")
           })
       }
