@@ -6,39 +6,32 @@
         :data="dataForChart"
       />
 
-      <StatisticsCard
-        v-for="(user, i) in allUserAnswers(selectedQuestionIndex)"
+      <Card
+        v-for="(user, i) in allAnswersToQuestion(selectedQuestionIndex)"
         :key="i"
-        :username="user.username"
-        :answer="user.answer"
+        :title="user.username"
+        :userId="user.userId"
         :question="selectedQuestion"
+        :questionIndex="-1"
+        :answer="user.answer"
+        :switchState="switchState"
+        :chooseQuestion="null"
+        :chooseUser="chooseUser"
+        :typeOfCard="'statisticsCard'"
       />
    </div>
 </template>
 
 <script>
 //components
-import StatisticsCard from "./StatisticsCard"
+import Card from "./Card"
 import PieChart from "../../helper/chart/PieChart"
-
-const backgroundColor = [
-  "#f80112",
-  "#f83299",
-  "#f88819",
-  "#f08819",
-  "#f11972",
-  "#f80112",
-  "#f83299",
-  "#f88819",
-  "#f08819",
-  "#f11972",
-]
 
 export default {
   name: "Statistics",
 
   components: {
-    StatisticsCard,
+    Card,
     PieChart,
   },
 
@@ -46,28 +39,32 @@ export default {
     selectedQuestion: Object,
     selectedQuestionIndex: Number,
     peopleData: Array,
+    switchState: Function,
+    chooseUser: Function,
   },
 
   methods: {
     counterCreator(usersAnswers) {
-      return choice => usersAnswers.reduce((acc, { answer }) => {
-        const { type } = this.selectedQuestion
+      return choice =>
+        usersAnswers.reduce((acc, { answer }) => {
+          const { type } = this.selectedQuestion
 
-        if (
-          (type === "checkbox" && ~R.indexOf(choice, answer)) ||
-          (type === "radio" && R.equals(choice, answer)) ||
-          (type === "toggle" && R.equals(choice, answer))
-        ) return acc + 1
-        return acc
-      }, 0)
+          if (
+            (type === "checkbox" && ~R.indexOf(choice, answer)) ||
+            (type === "radio" && R.equals(choice, answer)) ||
+            (type === "toggle" && R.equals(choice, answer))
+          )
+            return acc + 1
+          return acc
+        }, 0)
     },
 
-    allUserAnswers(index) {
+    allAnswersToQuestion(index) {
       return R.map(
         R.applySpec({
-          username: R.prop('username'),
-          userId: R.prop('userId'),
-          answer: R.path(['answers', index]),
+          username: R.prop("username"),
+          userId: R.prop("userId"),
+          answer: R.path(["answers", index]),
         }),
         this.peopleData,
       )
@@ -78,18 +75,18 @@ export default {
     dataForChart() {
       const { type, choices } = this.selectedQuestion
       return {
-        labels:  type == "toggle" ? ["Yes", "No"] : choices,
-        datasets: [{ backgroundColor, data: this.numbersForChart }],
+        labels: type == "toggle" ? ["Yes", "No"] : choices,
+        numbers: this.numbersForChart,
       }
     },
 
     numbersForChart() {
       const { type, choices } = this.selectedQuestion
-      const usersAnswers = this.allUserAnswers(this.selectedQuestionIndex)
+      const usersAnswers = this.allAnswersToQuestion(this.selectedQuestionIndex)
       const counter = R.map(this.counterCreator(usersAnswers))
 
       if (type == "checkbox" || type == "radio") return counter(choices)
-      if (type == "toggle") return counter(["yes", ""])
+      if (type == "toggle") return counter(["yes", "no"])
     },
   },
 }

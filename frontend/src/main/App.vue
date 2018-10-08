@@ -101,22 +101,22 @@ export default {
       transition: "nextlist",
       peopleData: [
         {
-          username: 'ali',
-          userId: 'a',
-          wisId: '1',
-          answers: ['yes', ['b2', 'b3'], 'r1', 'ali asgary'],
+          username: "ali",
+          userId: "a",
+          wisId: "1",
+          answers: ["yes", ["b2", "b3"], "r1", "ali asgary"],
         },
         {
-          username: 'armin',
-          userId: 'r',
-          wisId: '1',
-          answers: ['', ['b1', 'b3'], 'r3', 'armin saadat'],
+          username: "armin",
+          userId: "r",
+          wisId: "1",
+          answers: ["no", ["b1", "b3"], "r3", "armin saadat"],
         },
         {
-          username: 'mohammad',
-          userId: 'm',
-          wisId: '1',
-          answers: ['yes', ['b3'], 'r3', 'mohammad ghanbari'],
+          username: "mohammad",
+          userId: "m",
+          wisId: "1",
+          answers: ["yes", ["b3"], "r3", "mohammad ghanbari"],
         },
       ],
     }
@@ -127,9 +127,11 @@ export default {
   },
 
   methods: {
-    switchState(state) { this.state = state },
+    switchState(state) {
+      this.state = state
+    },
 
-    addPeopleData(answers) {
+    fillMyData(answers) {
       this.peopleData = [
         {
           username: this.name,
@@ -149,10 +151,10 @@ export default {
       } else {
         requests.getUserAnswers(this.userId, this.wisId).then(res => {
           if (R.prop("found", res)) {
-            this.addPeopleData(res.answers)
+            this.fillMyData(res.answers)
           } else {
             this.answers = R.map(
-              ({ type }) => (type === "checkbox") ? [] : '',
+              ({ type }) => (type === "checkbox" ? [] : ""),
               this.questions,
             )
             switchState("answering")
@@ -179,7 +181,7 @@ export default {
         requests
           .postAnswers(this.name, this.userId, this.wisId, this.answers)
           .then(() => {
-            this.addPeopleData()
+            this.fillMyData()
             switchState("reviewing")
             bus.$emit("show-message", "Submitted ...")
           })

@@ -16,14 +16,18 @@
         <div :class="$style.splitter" v-if="creator"/>
 
         <div :class="$style.answers">
-          <ReviewCard
+          <Card
             v-for="(q, i) in questions"
             :key="i"
+            :title = q.title
             :questionIndex="i"
             :question="q"
             :answer="answers[i]"
             :switchState="switchState"
             :chooseQuestion="chooseQuestion"
+            :chooseUser="chooseUser"
+            :userId="''"
+            :typeOfCard="'reviewCard'"
           />
         </div>
       </div>
@@ -33,6 +37,8 @@
         :selectedQuestion="selectedQuestion"
         :selectedQuestionIndex="selectedQuestionIndex"
         :peopleData="peopleData"
+        :switchState="switchState"
+        :chooseUser="chooseUser"
         />
       </div>
 
@@ -46,14 +52,14 @@
 
 <script>
 //components
-import ReviewCard from "./ReviewCard"
+import Card from "./Card"
 import Statistics from "./Statistics"
 
 export default {
   name: "Reviews",
 
   components: {
-    ReviewCard,
+    Card,
     Statistics,
   },
 
@@ -79,6 +85,13 @@ export default {
         this.selectedQuestion = this.questions[index] || {}
         this.selectedQuestionIndex = index
       }
+    },
+
+    chooseUser(userIdNum) {
+      this.currentUser = this.peopleData.reduce((acc, { userId }, i) => {
+        if (userIdNum === userId) return i
+        return acc
+      }, -1)
     },
   },
 

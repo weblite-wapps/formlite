@@ -1,38 +1,55 @@
 <template>
-  <div :class="$style.root" @click="goToStatistics()">
+  <div :class="$style.root" @click="onClick()">
     <div :class="$style['req-text']" v-if="question.required"> required </div>
-    <div :class="$style.title"> {{question.title}} </div>
+    <div :class="$style.title"> {{title}} </div>
     <div :class="$style.answer"> {{formattedAnswer}} </div> 
   </div>
 </template>
 
 <script>
 export default {
-  name: "ReviewCard",
+  name: "Card",
 
   props: {
+    title: String,
     question: Object,
     questionIndex: Number,
     answer: [String, Array],
     switchState: Function,
     chooseQuestion: Function,
+    typeOfCard: String,
+    chooseUser: Function,
+    userId: String,
   },
 
   methods: {
+    onClick() {
+      if (this.typeOfCard === "reviewCard") this.goToStatistics()
+      if (this.typeOfCard === "statisticsCard") this.goToReviews()
+    },
+
     goToStatistics() {
       this.chooseQuestion(this.questionIndex)
       this.switchState("statistics")
+    },
+
+    goToReviews() {
+      this.chooseUser(this.userId)
+      this.switchState("reviewing")
     },
   },
 
   computed: {
     formattedAnswer() {
-      if (this.question.type == "text") return this.answer
-      if (this.question.type == "toggle") {
-        if (this.answer == "") return "No"
-        if (this.answer == "yes") return "Yes"
-      } else if (this.question.type == "radio") return this.answer
-      if (this.question.type == "checkbox") return this.answer.join(" , ")
+      const {
+        question: { type },
+        answer,
+      } = this
+
+      if (type == "text") return answer
+      if (type == "toggle") return answer.toUpperCase()
+      if (type == "radio") return answer
+      if (type == "checkbox") return answer.join(" , ")
     },
   },
 }
