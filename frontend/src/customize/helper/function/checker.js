@@ -12,7 +12,7 @@ export const checkQuestionsChoice = questions =>
   questions.reduce(
     (acc, { type, choices }, i) => {
       if (!acc.valid) return acc
-      if (type == "text" || type == "toggle") return acc
+      if (type == 'text' || type == 'toggle') return acc
       if (choices.length == 0 || !checkChoicesTitle(choices)) {
         return { valid: false, index: i }
       }
