@@ -41,20 +41,20 @@
 
 <script>
 // components
-import Header from "./components/Header"
-import Questions from "./components/Questions"
-import Actions from "./components/Actions"
-import SnackBar from "./helper/component/SnackBar"
-import Reviews from "./components/Review/Reviews"
+import Header from './components/Header'
+import Questions from './components/Questions'
+import Actions from './components/Actions'
+import SnackBar from './helper/component/SnackBar'
+import Reviews from './components/Review/Reviews'
 // helper
-import webliteHandler from "./helper/function/weblite.api"
-import requests from "./helper/function/handleRequests"
-import bus from "./helper/function/bus"
+import webliteHandler from './helper/function/weblite.api'
+import requests from './helper/function/handleRequests'
+import bus from './helper/function/bus'
 // R && W
 const { R, W } = window
 
 export default {
-  name: "App",
+  name: 'App',
 
   components: {
     Header,
@@ -66,59 +66,17 @@ export default {
 
   data() {
     return {
-      name: "ali",
-      userId: "a",
-      wisId: "1",
+      name: '',
+      userId: '',
+      wisId: '',
       creator: true,
-      formTitle: "test",
-      questions: [
-        {
-          title: "toggle",
-          type: "toggle",
-          required: true,
-        },
-        {
-          title: "checkbox",
-          type: "checkbox",
-          required: false,
-          choices: ["b1", "b2", "b3", "b4"],
-        },
-        {
-          title: "radio",
-          type: "radio",
-          required: false,
-          choices: ["r1", "r2", "r3", "r4"],
-        },
-        {
-          title: "text",
-          type: "text",
-          required: false,
-        },
-      ],
-      state: "reviewing",
+      formTitle: 'test',
+      questions: [],
+      state: 'reviewing',
       answers: [],
       currentQuestion: 0,
-      transition: "nextlist",
-      peopleData: [
-        {
-          username: "ali",
-          userId: "a",
-          wisId: "1",
-          answers: ["yes", ["b2", "b3"], "r1", "ali asgary"],
-        },
-        {
-          username: "armin",
-          userId: "r",
-          wisId: "1",
-          answers: ["no", ["b1", "b3"], "r3", "armin saadat"],
-        },
-        {
-          username: "mohammad",
-          userId: "m",
-          wisId: "1",
-          answers: ["yes", ["b3"], "r3", "mohammad ghanbari"],
-        },
-      ],
+      transition: 'nextlist',
+      peopleData: [],
     }
   },
 
@@ -146,18 +104,18 @@ export default {
       if (this.creator) {
         requests.getAllAnswers(this.wisId).then(res => {
           this.peopleData = res
-          switchState("reviewing")
+          switchState('reviewing')
         })
       } else {
         requests.getUserAnswers(this.userId, this.wisId).then(res => {
-          if (R.prop("found", res)) {
+          if (R.prop('found', res)) {
             this.fillMyData(res.answers)
           } else {
             this.answers = R.map(
-              ({ type }) => (type === "checkbox" ? [] : ""),
+              ({ type }) => (type === 'checkbox' ? [] : ''),
               this.questions,
             )
-            switchState("answering")
+            switchState('answering')
           }
         })
       }
@@ -167,23 +125,23 @@ export default {
       const valid = this.questions.reduce((acc, { required, type }, i) => {
         if (
           (required &&
-            (type == "radio" || type == "text") &&
-            this.answers[i] == "") ||
-          (type == "checkbox" && this.answers[i].length == 0)
+            (type == 'radio' || type == 'text') &&
+            this.answers[i] == '') ||
+          (type == 'checkbox' && this.answers[i].length == 0)
         )
           return false
         return acc
       }, true)
 
       if (!valid)
-        bus.$emit("show-message", "please answer all the requirements ...")
+        bus.$emit('show-message', 'please answer all the requirements ...')
       else {
         requests
           .postAnswers(this.name, this.userId, this.wisId, this.answers)
           .then(() => {
             this.fillMyData()
-            switchState("reviewing")
-            bus.$emit("show-message", "Submitted ...")
+            switchState('reviewing')
+            bus.$emit('show-message', 'Submitted ...')
           })
       }
     },
