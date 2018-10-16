@@ -104,7 +104,7 @@ export default {
       if (this.creator) {
         requests.getAllAnswers(this.wisId).then(res => {
           this.peopleData = res
-          switchState('reviewing')
+          this.switchState('reviewing')
         })
       } else {
         requests.getUserAnswers(this.userId, this.wisId).then(res => {
@@ -115,7 +115,7 @@ export default {
               ({ type }) => (type === 'checkbox' ? [] : ''),
               this.questions,
             )
-            switchState('answering')
+            this.switchState('answering')
           }
         })
       }
@@ -140,7 +140,7 @@ export default {
           .postAnswers(this.name, this.userId, this.wisId, this.answers)
           .then(() => {
             this.fillMyData()
-            switchState('reviewing')
+            this.switchState('reviewing')
             bus.$emit('show-message', 'Submitted ...')
           })
       }
