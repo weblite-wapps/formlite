@@ -11,7 +11,7 @@
 
 <script>
 export default {
-  name: "Radio",
+  name: 'Radio',
 
   props: {
     value: Boolean,
