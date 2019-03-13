@@ -1,6 +1,7 @@
 {
   "name": "formlite",
-  "id": "5b4f42f6e8ac737dd0225990",
+  "id": "5c7d3b80cb652f5fc9380c50",
+  "searchable": true,
   "instancable": true,
   "creator": true,
   "inline": true,
@@ -8,18 +9,21 @@
   "userInfo": true,
   "width": 352,
   "height": 452,
-  "customizeArray": [{
-    "type": "textField",
-    "name": "title",
-    "title": "Title",
-    "description": "Title",
-    "detail": { "placeholder": "title" }
-  },{
-    "type": "text",
-    "name": "text",
-    "title": "Form",
-    "detail": { "text": "Customize your form." }
-  }],
+  "customizeArray": [
+    {
+      "type": "textField",
+      "name": "title",
+      "title": "Title",
+      "description": "Title",
+      "detail": { "placeholder": "title" }
+    },
+    {
+      "type": "text",
+      "name": "text",
+      "title": "Form",
+      "detail": { "text": "Customize your form." }
+    }
+  ],
   "servIndexes": {
     "inline": "index.main",
     "main": "index.main",
