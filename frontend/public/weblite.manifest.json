@@ -1,7 +1,7 @@
 {
   "name": "formlite",
   "id": "5b4f42f6e8ac737dd0225990",
-  "instancable": true,
+  "instantiable": true,
   "creator": true,
   "inline": true,
   "shareDB": false,
