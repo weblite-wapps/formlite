@@ -1,9 +1,9 @@
-var express = require('express')
-var bodyParser = require('body-parser')
-var database = require('./database')
+const express = require('express')
+const bodyParser = require('body-parser')
+const database = require('./database')
 
 
-var router = express.Router()
+const router = express.Router()
 router.use(bodyParser.json())
 
 

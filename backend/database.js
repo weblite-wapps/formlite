@@ -1,10 +1,10 @@
-var mongoose = require('mongoose')
-var models = require('./db_models')
+const mongoose = require('mongoose')
+const models = require('./db_models')
 
 exports.connect = function(name) {
   mongoose.connect('mongodb://localhost/' + name);
 
-  var db = mongoose.connection
+  const db = mongoose.connection
   db.on('error', console.error.bind(console, 'connection error:'))
   db.once('open', () => {
     console.log('connected to database successfully ...')
