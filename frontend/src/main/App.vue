@@ -3,8 +3,10 @@
     <Header
       :title="formTitle"
       :state="state"
+      :canAnswer="canAnswer"
+      :creator="creator"
       :switchState="switchState"
-       />
+    />
 
     <Questions
       :questions="questions"
@@ -19,7 +21,7 @@
     <Actions
       :length="questions.length"
       :curIndex="currentQuestion"
-      v-if="state == 'answering' && !creator"
+      v-if="state == 'answering' && questions.length"
       @next-hover="transition = 'nextlist'"
       @prev-hover="transition = 'prevlist'"
       @next="currentQuestion++"
@@ -41,52 +43,54 @@
 
 <script>
 // components
-import Header from './components/Header'
-import Questions from './components/Questions'
-import Actions from './components/Actions'
-import SnackBar from './helper/component/SnackBar'
-import Reviews from './components/Review/Reviews'
+import Header from "./components/Header";
+import Questions from "./components/Questions";
+import Actions from "./components/Actions";
+import SnackBar from "./helper/component/SnackBar";
+import Reviews from "./components/Review/Reviews";
 // helper
-import webliteHandler from './helper/function/weblite.api'
-import requests from './helper/function/handleRequests'
-import bus from './helper/function/bus'
+import webliteHandler from "./helper/function/weblite.api";
+import requests from "./helper/function/handleRequests";
+import bus from "./helper/function/bus";
+import { creatorCanAnswer } from "./helper/function/helperFunctions";
 // R && W
-const { R, W } = window
+const { R, W } = window;
 
 export default {
-  name: 'App',
+  name: "App",
 
   components: {
     Header,
     Questions,
     Actions,
     SnackBar,
-    Reviews,
+    Reviews
   },
 
   data() {
     return {
-      name: '',
-      userId: '',
-      wisId: '',
+      name: "",
+      userId: "",
+      wisId: "",
       creator: true,
-      formTitle: 'test',
+      canAnswer: true, // this is only for creator
+      formTitle: "test",
       questions: [],
-      state: 'reviewing',
+      state: "reviewing",
       answers: [],
       currentQuestion: 0,
-      transition: 'nextlist',
-      peopleData: [],
-    }
+      transition: "nextlist",
+      peopleData: []
+    };
   },
 
   created() {
-    W && webliteHandler(this)
+    W && webliteHandler(this);
   },
 
   methods: {
     switchState(state) {
-      this.state = state
+      this.state = state;
     },
 
     fillMyData(answers) {
@@ -95,29 +99,30 @@ export default {
           username: this.name,
           userId: this.userId,
           wisId: this.wisId,
-          answers: answers || this.answers,
-        },
-      ]
+          answers: answers || this.answers
+        }
+      ];
     },
 
     fetchData() {
       if (this.creator) {
         requests.getAllAnswers(this.wisId).then(res => {
-          this.peopleData = res
-          this.switchState('reviewing')
-        })
+          this.peopleData = res;
+          this.switchState("reviewing");
+          this.canAnswer = creatorCanAnswer(this.userId, this.peopleData);
+        });
       } else {
         requests.getUserAnswers(this.userId, this.wisId).then(res => {
-          if (R.prop('found', res)) {
-            this.fillMyData(res.answers)
+          if (R.prop("found", res)) {
+            this.fillMyData(res.answers);
           } else {
             this.answers = R.map(
-              ({ type }) => (type === 'checkbox' ? [] : ''),
-              this.questions,
-            )
-            this.switchState('answering')
+              ({ type }) => (type === "checkbox" ? [] : ""),
+              this.questions
+            );
+            this.switchState("answering");
           }
-        })
+        });
       }
     },
 
@@ -125,34 +130,33 @@ export default {
       const valid = this.questions.reduce((acc, { required, type }, i) => {
         if (
           (required &&
-            (type == 'radio' || type == 'text') &&
-            this.answers[i] == '') ||
-          (type == 'checkbox' && this.answers[i].length == 0)
+            ((type == "radio" || type == "text") && this.answers[i] == "")) ||
+          (type == "checkbox" && this.answers[i].length == 0)
         )
-          return false
-        return acc
-      }, true)
+          return false;
+        return acc;
+      }, true);
 
       if (!valid)
-        bus.$emit('show-message', 'please answer all the requirements ...')
+        bus.$emit("show-message", "please answer all the requirements ...");
       else {
         requests
           .postAnswers(this.name, this.userId, this.wisId, this.answers)
           .then(() => {
-            this.fillMyData()
-            this.switchState('reviewing')
-            bus.$emit('show-message', 'Submitted ...')
-          })
+            this.fillMyData();
+            this.switchState("reviewing");
+            bus.$emit("show-message", "Submitted ...");
+          });
       }
     },
 
     editAnswer(index) {
       return value => {
-        this.answers = R.assocPath([index], value, this.answers)
-      }
-    },
-  },
-}
+        this.answers = R.assocPath([index], value, this.answers);
+      };
+    }
+  }
+};
 </script>
 
 
@@ -165,7 +169,6 @@ export default {
   display: flex;
   flex-direction: column;
   border: 1px #e0e0e0 solid;
-  border-radius: 5px;
   overflow: hidden;
   background: #f0f0f098;
 }

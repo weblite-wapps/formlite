@@ -1,9 +1,23 @@
 <template>
   <div :class="$style.root">
-    <span :class="$style.title">
-      {{ title }}
-    </span>
-    <i :class="$style['back-icon']" v-if="state == 'statistics'" @click="switchState('reviewing')"> reply </i>
+    <span :class="$style.title">{{ title }}</span>
+    <i
+      :class="$style['back-icon']"
+      v-if="state == 'statistics' && creator"
+      @click="switchState('reviewing')"
+    >reply</i>
+
+    <i
+      :class="$style['back-icon']"
+      v-if="state == 'reviewing' &&  creator"
+      @click="switchState('statistics')"
+    >book</i>
+
+    <i
+      :class="$style['back-icon']"
+      v-if="state == 'reviewing' && creator && canAnswer"
+      @click="switchState('answering')"
+    >reply</i>
   </div>
 </template>
 
@@ -16,8 +30,10 @@ export default {
     title: String,
     state: String,
     switchState: Function,
-  },
-}
+    creator: Boolean,
+    canAnswer: Boolean
+  }
+};
 </script>
 
 

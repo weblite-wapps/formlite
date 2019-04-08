@@ -3,13 +3,9 @@
     <div :class="$style.reviews" v-if="peopleData.length != 0">
       <div v-if="state == 'reviewing'">
         <div :class="$style.users" v-if="creator">
-          <div :class="$style['select-text']"> User : </div>
+          <div :class="$style['select-text']">User :</div>
           <select :class="$style.select" v-model="currentUser">
-            <option
-              v-for="(data, i) in peopleData"
-              :key="i"
-              :value="i"
-            > {{data.username}} </option>
+            <option v-for="(data, i) in peopleData" :key="i" :value="i">{{data.username}}</option>
           </select>
         </div>
 
@@ -19,7 +15,7 @@
           <Card
             v-for="(q, i) in questions"
             :key="i"
-            :title = q.title
+            :title="q.title"
             :questionIndex="i"
             :question="q"
             :answer="answers[i]"
@@ -34,33 +30,30 @@
 
       <div :class="$style.answers" v-if="state === 'statistics'">
         <Statistics
-        :selectedQuestion="selectedQuestion"
-        :selectedQuestionIndex="selectedQuestionIndex"
-        :peopleData="peopleData"
-        :switchState="switchState"
-        :chooseUser="chooseUser"
+          :selectedQuestion="selectedQuestion"
+          :selectedQuestionIndex="selectedQuestionIndex"
+          :peopleData="peopleData"
+          :switchState="switchState"
+          :chooseUser="chooseUser"
         />
       </div>
-
     </div>
-    
-    <div :class="$style['no-data']" v-if="peopleData.length == 0">
-      No answers to show yet :(
-    </div> 
+
+    <div :class="$style['no-data']" v-if="peopleData.length == 0">No answers to show yet :(</div>
   </div>
 </template>
 
 <script>
 //components
-import Card from "./Card"
-import Statistics from "./Statistics"
+import Card from "./Card";
+import Statistics from "./Statistics";
 
 export default {
   name: "Reviews",
 
   components: {
     Card,
-    Statistics,
+    Statistics
   },
 
   props: {
@@ -68,40 +61,40 @@ export default {
     peopleData: Array,
     questions: Array,
     state: String,
-    switchState: Function,
+    switchState: Function
   },
 
   data() {
     return {
       currentUser: 0,
       selectedQuestion: {},
-      selectedQuestionIndex: -1,
-    }
+      selectedQuestionIndex: -1
+    };
   },
 
   methods: {
     chooseQuestion(index) {
       if (this.creator) {
-        this.selectedQuestion = this.questions[index] || {}
-        this.selectedQuestionIndex = index
+        this.selectedQuestion = this.questions[index] || {};
+        this.selectedQuestionIndex = index;
       }
     },
 
     chooseUser(userIdNum) {
       this.currentUser = this.peopleData.reduce((acc, { userId }, i) => {
-        if (userIdNum === userId) return i
-        return acc
-      }, -1)
-    },
+        if (userIdNum === userId) return i;
+        return acc;
+      }, -1);
+    }
   },
 
   computed: {
     answers() {
-      if (this.peopleData.length == 0) return []
-      return this.peopleData[this.currentUser].answers
-    },
-  },
-}
+      if (this.peopleData.length == 0) return [];
+      return this.peopleData[this.currentUser].answers;
+    }
+  }
+};
 </script>
 
 <style module>
@@ -118,11 +111,12 @@ export default {
   justify-content: flex-start;
   min-height: 330px;
   padding: 15px 20px 10px;
+  overflow: scroll;
 }
 
 .answers {
   padding: 10px 5px 0px;
-  overflow-y: auto;
+  /* overflow-y: scroll; */
 }
 
 .users {

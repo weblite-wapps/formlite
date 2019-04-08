@@ -12,7 +12,8 @@ export default vueRoot =>
           vueRoot.userId = id
           vueRoot.creator = creator
           vueRoot.wisId = W.wisId
-
+          // console.log("title ", title)
+          // console.log("questions ", questions)
           if (title) vueRoot.formTitle = title
           if (questions) vueRoot.questions = questions
 

@@ -1,31 +1,31 @@
 <template>
-<div :class="$style.root">
-  <Header :title="wappTitle"/>
-  <FormHeader :formTitle="formTitle"/>
-  <Questions
-    :questions="questions"
-    :editChoice="editQuestionChoice"
-    :addChoice="addQuestionChoice"
-    :deleteChoice="deleteQuestionChoice"
-    :addQuestion="addQuestion"
-    :changeQuestionRequired="changeQuestionRequired"
-    :moveQuestionUp="moveQuestionUp"
-    :moveQuestionDown="moveQuestionDown"
-    :deleteQuestion="deleteQuestion"
-  />
-</div>
+  <div :class="$style.root">
+    <Header :title="wappTitle"/>
+    <FormHeader :formTitle="formTitle"/>
+    <Questions
+      :questions="questions"
+      :editChoice="editQuestionChoice"
+      :addChoice="addQuestionChoice"
+      :deleteChoice="deleteQuestionChoice"
+      :addQuestion="addQuestion"
+      :changeQuestionRequired="changeQuestionRequired"
+      :moveQuestionUp="moveQuestionUp"
+      :moveQuestionDown="moveQuestionDown"
+      :deleteQuestion="deleteQuestion"
+    />
+  </div>
 </template>
 
 
 <script>
 // components
-import Header from "./components/Header"
-import Questions from "./components/Questions"
-import FormHeader from "./components/FormHeader"
+import Header from "./components/Header";
+import Questions from "./components/Questions";
+import FormHeader from "./components/FormHeader";
 // helper
-import webliteHandler from "./helper/function/weblite.api"
+import webliteHandler from "./helper/function/weblite.api";
 // W
-const { W, R } = window
+const { W, R } = window;
 
 export default {
   name: "App",
@@ -33,18 +33,18 @@ export default {
   components: {
     Header,
     Questions,
-    FormHeader,
+    FormHeader
   },
 
   data: () => ({
     wappTitle: "Formlite",
     formTitle: "Title",
-    questions: [],
+    questions: []
   }),
 
   methods: {
     deleteQuestion(index) {
-      this.questions = R.remove(index, 1, this.questions)
+      this.questions = R.remove(index, 1, this.questions);
     },
 
     editQuestionChoice(questionIndex) {
@@ -52,27 +52,27 @@ export default {
         this.questions = R.assocPath(
           [questionIndex, "choices", choiceIndex],
           value,
-          this.questions,
-        )
-      }
+          this.questions
+        );
+      };
     },
 
     deleteQuestionChoice(questionIndex) {
       return choiceIndex => {
-        const choicesLens = R.lensPath([questionIndex, "choices"])
+        const choicesLens = R.lensPath([questionIndex, "choices"]);
         this.questions = R.over(
           choicesLens,
           R.remove(choiceIndex, 1),
-          this.questions,
-        )
-      }
+          this.questions
+        );
+      };
     },
 
     addQuestionChoice(questionIndex) {
       return () => {
-        const choicesLens = R.lensPath([questionIndex, "choices"])
-        this.questions = R.over(choicesLens, R.append(""), this.questions)
-      }
+        const choicesLens = R.lensPath([questionIndex, "choices"]);
+        this.questions = R.over(choicesLens, R.append(""), this.questions);
+      };
     },
 
     addQuestion() {
@@ -80,44 +80,44 @@ export default {
         title: "",
         type: "text",
         required: false,
-        choices: [],
-      }
-      this.questions = R.append(newQuestion, this.questions)
+        choices: []
+      };
+      this.questions = R.append(newQuestion, this.questions);
     },
 
     changeQuestionRequired(questionIndex, value) {
       this.questions = R.assocPath(
         [questionIndex, "required"],
         value,
-        this.questions,
-      )
+        this.questions
+      );
     },
 
     moveQuestionUp(index) {
-      const fromlens = R.lensIndex(index)
-      const tolens = R.lensIndex(index - 1)
+      const fromlens = R.lensIndex(index);
+      const tolens = R.lensIndex(index - 1);
 
       this.questions = R.pipe(
         R.set(tolens, this.questions[index]),
-        R.set(fromlens, this.questions[index - 1]),
-      )(this.questions)
+        R.set(fromlens, this.questions[index - 1])
+      )(this.questions);
     },
 
     moveQuestionDown(index) {
-      const fromlens = R.lensIndex(index)
-      const tolens = R.lensIndex(index + 1)
+      const fromlens = R.lensIndex(index);
+      const tolens = R.lensIndex(index + 1);
 
       this.questions = R.pipe(
         R.set(tolens, this.questions[index]),
-        R.set(fromlens, this.questions[index + 1]),
-      )(this.questions)
-    },
+        R.set(fromlens, this.questions[index + 1])
+      )(this.questions);
+    }
   },
 
   created() {
-    W && webliteHandler(this)
-  },
-}
+    W && webliteHandler(this);
+  }
+};
 </script>
 
 
