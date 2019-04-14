@@ -6,6 +6,7 @@
       :canAnswer="canAnswer"
       :creator="creator"
       :switchState="switchState"
+      :peopleData="peopleData"
     />
 
     <Questions

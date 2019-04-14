@@ -26,6 +26,7 @@
 //components
 import Card from "./Card"
 import PieChart from "../../helper/chart/PieChart"
+const { R } = window
 
 export default {
   name: "Statistics",

@@ -13,6 +13,18 @@
       @click="switchState('statistics')"
     >book</i>
 
+    <downloadexcel
+      :data="peopleData"
+      :fields="json_fields"
+      name="form.csv"
+      type="csv"
+    >
+      <i
+        :class="$style['back-icon']"
+        v-if="state == 'reviewing' &&  creator"
+      >save</i>
+    </downloadexcel>
+    
     <i
       :class="$style['back-icon']"
       v-if="state == 'reviewing' && creator && canAnswer"
@@ -23,16 +35,31 @@
 
 
 <script>
+import downloadexcel from 'vue-json-excel'
+
 export default {
   name: "Header",
+
+  components: {
+    downloadexcel,
+  },
 
   props: {
     title: String,
     state: String,
     switchState: Function,
     creator: Boolean,
-    canAnswer: Boolean
-  }
+    canAnswer: Boolean,
+    peopleData: Array,
+  }, 
+
+  data: () => ({
+    json_fields: {
+      'Name': 'username',
+      'Id': 'userId',
+      'Answers': 'answers',
+    },
+  })
 };
 </script>
 
