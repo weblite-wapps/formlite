@@ -1,4 +1,4 @@
-var mongoose = require('mongoose')
+const mongoose = require('mongoose')
 
 exports.Answer = mongoose.model('Answer', new mongoose.Schema({
   username: String,
