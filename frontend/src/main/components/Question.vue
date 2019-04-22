@@ -1,21 +1,21 @@
 <template>
   <transition :name="$parent.$parent.transition">
     <div :class="$style.card">
-      <div :class="$style['req-text']" v-if="question.required"> * required </div>
+      <div :class="$style['req-text']" v-if="question.required">* required</div>
       <div :class="$style['title-box']">
-        <p :class="$style.title"> {{ question.title }} </p>
+        <p :class="$style.title">{{ question.title }}</p>
       </div>
 
       <div :class="$style.splitter"/>
 
       <div :class="$style['answer-box']">
-
-        <TextInput v-if="question.type === 'text'"
+        <TextInput
+          v-if="question.type === 'text'"
           :asnswer="answer"
           :editAnswer="editAnswer(index)"
         />
 
-        <ToggleInput 
+        <ToggleInput
           v-else-if="question.type === 'toggle'"
           :answer="answer"
           :toggleAnswer="toggleAnswer"
@@ -34,20 +34,19 @@
           :choices="question.choices"
           :editAnswer="editAnswer(index)"
         />
-
       </div>
     </div>
   </transition>
 </template>
 
 <script>
-import TextInput from "./Inputs/TextInput"
-import ToggleInput from "./Inputs/ToggleInput"
-import CheckboxInput from "./Inputs/CheckboxInput"
-import RadioInput from "./Inputs/RadioInput"
+import TextInput from './Inputs/TextInput'
+import ToggleInput from './Inputs/ToggleInput'
+import CheckboxInput from './Inputs/CheckboxInput'
+import RadioInput from './Inputs/RadioInput'
 
 export default {
-  name: "Question",
+  name: 'Question',
 
   components: {
     TextInput,
@@ -69,7 +68,7 @@ export default {
 
   methods: {
     toggleAnswer() {
-      this.editAnswer(this.index)(this.answer == "" ? "yes" : "no")
+      this.editAnswer(this.index)(this.answer == '' ? 'yes' : 'no')
     },
   },
 }

@@ -7,7 +7,8 @@
       :answer="answers[i]"
       :index="i"
       :editAnswer="editAnswer"
-      v-show="currentQuestion === i"/>
+      v-show="currentQuestion === i"
+    />
   </div>
 </template>
 
@@ -20,14 +21,14 @@ export default {
   name: 'Questions',
 
   components: {
-    Question
+    Question,
   },
 
   props: {
     currentQuestion: Number,
     questions: Array,
     answers: Array,
-    editAnswer: Function
+    editAnswer: Function,
   },
 }
 </script>
@@ -41,5 +42,4 @@ export default {
   justify-content: center;
   align-items: center;
 }
-
 </style>

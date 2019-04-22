@@ -1,20 +1,16 @@
 <template>
   <div class="choice">
-    <Radio
-      :value="selectedRadio == radioIndex"
-      @input="onInput"
-    />
-
-    <div class="text"  @click="onInput">{{title}}</div>
+    <Radio :value="selectedRadio == radioIndex" @input="onInput"/>
+    <div class="text" @click="onInput">{{title}}</div>
   </div>
 </template>
 
 
 <script>
-import Radio from "../helper/component/Radio"
+import Radio from '../helper/component/Radio'
 
 export default {
-  name: "RadioChoice",
+  name: 'RadioChoice',
 
   components: {
     Radio,
@@ -28,7 +24,7 @@ export default {
 
   methods: {
     onInput() {
-      this.$emit("input")
+      this.$emit('input')
     },
   },
 }

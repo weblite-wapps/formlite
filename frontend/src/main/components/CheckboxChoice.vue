@@ -7,38 +7,38 @@
 
 
 <script>
-import CheckBox from "../helper/component/CheckBox";
+import CheckBox from '../helper/component/CheckBox'
 
-const { R } = window;
+const { R } = window
 
 export default {
-  name: "Choice",
+  name: 'Choice',
 
   components: {
-    CheckBox
+    CheckBox,
   },
 
   data: () => ({
-    checkValue: false
+    checkValue: false,
   }),
 
   props: {
     title: String,
     answer: Array,
-    editAnswer: Function
+    editAnswer: Function,
   },
 
   methods: {
     onInputClick() {
-      this.checkValue = !this.checkValue;
-      if (this.checkValue) this.editAnswer(R.append(this.title, this.answer));
+      this.checkValue = !this.checkValue
+      if (this.checkValue) this.editAnswer(R.append(this.title, this.answer))
       else
         this.editAnswer(
-          R.remove(R.indexOf(this.title, this.answer), 1, this.answer)
-        );
-    }
-  }
-};
+          R.remove(R.indexOf(this.title, this.answer), 1, this.answer),
+        )
+    },
+  },
+}
 </script>
 
 

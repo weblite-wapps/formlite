@@ -1,31 +1,28 @@
 <template>
   <div :class="$style.root">
-    <div :class="prevStyle"
-      @mouseenter="$emit('prev-hover')"
-      @click="onPrev"> Prev </div>
-    <div :class="$style.text"> {{curIndex + 1}} / {{length}} </div>
+    <div :class="prevStyle" @mouseenter="$emit('prev-hover')" @click="onPrev">Prev</div>
+    <div :class="$style.text">{{curIndex + 1}} / {{length}}</div>
 
-    <div :class="$style.next"
+    <div
+      :class="$style.next"
       @click="$emit('next')"
       @mouseenter="$emit('next-hover')"
-      v-if="!isLast"> Next </div>
+      v-if="!isLast"
+    >Next</div>
 
-    <div :class="$style.submit"
-      @click="$emit('submit')"
-      v-if="isLast"> Submit </div>
+    <div :class="$style.submit" @click="$emit('submit')" v-if="isLast">Submit</div>
   </div>
 </template>
 
 
 <script>
-
 export default {
   name: 'Actions',
 
   props: {
     length: Number,
     curIndex: Number,
-    creator: Boolean
+    creator: Boolean,
   },
 
   methods: {
@@ -33,12 +30,12 @@ export default {
       if (!this.isFirst) {
         this.$emit('prev')
       }
-    }
+    },
   },
 
   computed: {
     isLast() {
-      return this.curIndex >= (this.length - 1)
+      return this.curIndex >= this.length - 1
     },
 
     isFirst() {
@@ -47,14 +44,13 @@ export default {
 
     prevStyle() {
       return this.isFirst ? this.$style['prev-disable'] : this.$style.prev
-    }
-  }
+    },
+  },
 }
 </script>
 
 
 <style module>
-
 .root {
   padding: 5px;
   margin-bottom: 0;
@@ -64,7 +60,8 @@ export default {
   background-color: #588c7e;
 }
 
-.prev, .next {
+.prev,
+.next {
   padding: 12px;
   color: white;
   cursor: pointer;
@@ -77,7 +74,8 @@ export default {
   cursor: default;
 }
 
-.prev:hover, .next:hover {
+.prev:hover,
+.next:hover {
   background-color: rgba(197, 255, 210, 0.144);
 }
 
@@ -97,5 +95,4 @@ export default {
 .text {
   color: rgba(255, 255, 255, 0.87);
 }
-
 </style>

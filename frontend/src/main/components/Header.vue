@@ -7,24 +7,10 @@
       @click="switchState('reviewing')"
     >reply</i>
 
-    <i
-      :class="$style['back-icon']"
-      v-if="state == 'reviewing' &&  creator"
-      @click="switchState('statistics')"
-    >book</i>
-
-    <downloadexcel
-      :data="peopleData"
-      :fields="json_fields"
-      name="form.csv"
-      type="csv"
-    >
-      <i
-        :class="$style['back-icon']"
-        v-if="state == 'reviewing' &&  creator"
-      >save</i>
+    <downloadexcel :data="json_data" :fields="json_fields" name="form.csv" type="csv">
+      <i :class="$style['back-icon']" v-if="state == 'reviewing' &&  creator">save</i>
     </downloadexcel>
-    
+
     <i
       :class="$style['back-icon']"
       v-if="state == 'reviewing' && creator && canAnswer"
@@ -38,7 +24,7 @@
 import downloadexcel from 'vue-json-excel'
 
 export default {
-  name: "Header",
+  name: 'Header',
 
   components: {
     downloadexcel,
@@ -51,16 +37,38 @@ export default {
     creator: Boolean,
     canAnswer: Boolean,
     peopleData: Array,
-  }, 
-
+    questions: Array,
+  },
   data: () => ({
     json_fields: {
-      'Name': 'username',
-      'Id': 'userId',
-      'Answers': 'answers',
+      Name: 'username',
+      Question1: 'answers1',
     },
-  })
-};
+
+    json_data: [
+      {
+        username: 'Tony Pena',
+        answers1: [11, 22],
+        // answers2: '22',
+        // answers3: '33',
+      },
+      // {
+      //   username: 'Thessaloniki',
+      //   answers1: '111',
+      //   answers2: '222',
+      //   answers3: '333',
+      // },
+    ],
+  }),
+  computed: {
+    jsf() {
+      return this.Q
+    },
+  },
+  updated() {
+    console.log('peopleData ', this.peopleData)
+  },
+}
 </script>
 
 
