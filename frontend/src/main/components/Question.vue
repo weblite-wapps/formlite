@@ -68,7 +68,9 @@ export default {
 
   methods: {
     toggleAnswer() {
-      this.editAnswer(this.index)(this.answer == '' ? 'yes' : 'no')
+      this.editAnswer(this.index)(
+        this.answer ? (this.answer === 'yes' ? 'no' : 'yes') : 'yes',
+      )
     },
   },
 }

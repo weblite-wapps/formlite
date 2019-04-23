@@ -7,10 +7,10 @@
 
 
 <script>
-import Toggle from "../../helper/component/Toggle"
+import Toggle from '../../helper/component/Toggle'
 
 export default {
-  name: "ToggleInput",
+  name: 'ToggleInput',
 
   components: { Toggle },
 

@@ -8,6 +8,8 @@
       :switchState="switchState"
       :peopleData="peopleData"
       :questions="questions"
+      :excellDatas="excellDatas"
+      :excellFields="excellFields"
     />
 
     <Questions
@@ -54,7 +56,11 @@ import Reviews from './components/Review/Reviews'
 import webliteHandler from './helper/function/weblite.api'
 import requests from './helper/function/handleRequests'
 import bus from './helper/function/bus'
-import { creatorCanAnswer } from './helper/function/helperFunctions'
+import {
+  creatorCanAnswer,
+  makeExcellDatas,
+  makeExcellFields,
+} from './helper/function/helperFunctions'
 // R && W
 const { R, W } = window
 
@@ -74,7 +80,7 @@ export default {
       name: '',
       userId: '',
       wisId: '',
-      creator: true,
+      creator: false,
       canAnswer: true, // this is only for creator
       formTitle: 'test',
       questions: [],
@@ -157,6 +163,14 @@ export default {
       return value => {
         this.answers = R.assocPath([index], value, this.answers)
       }
+    },
+  },
+  computed: {
+    excellDatas() {
+      return makeExcellDatas(this.peopleData)
+    },
+    excellFields() {
+      return makeExcellFields(this.questions)
     },
   },
 }

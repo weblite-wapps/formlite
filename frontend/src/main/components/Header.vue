@@ -7,21 +7,20 @@
       @click="switchState('reviewing')"
     >reply</i>
 
-    <downloadexcel :data="json_data" :fields="json_fields" name="form.xls" type="xls">
-      <i :class="$style['back-icon']" v-if="state == 'reviewing' &&  creator">save</i>
-    </downloadexcel>
+    <div v-if="state == 'reviewing' &&  creator" :class="$style['review-icon-header']">
+      <downloadexcel :data="excellDatas" :fields="excellFields" name="form.xls" type="xls">
+        <i :class="$style['back-icon']">print</i>
+      </downloadexcel>
 
-    <i
-      :class="$style['back-icon']"
-      v-if="state == 'reviewing' && creator && canAnswer"
-      @click="switchState('answering')"
-    >reply</i>
+      <i :class="$style['back-icon']" v-if="canAnswer" @click="switchState('answering')">reply</i>
+    </div>
   </div>
 </template>
 
 
 <script>
 import downloadexcel from 'vue-json-excel'
+
 const { R } = window
 export default {
   name: 'Header',
@@ -38,42 +37,8 @@ export default {
     canAnswer: Boolean,
     peopleData: Array,
     questions: Array,
-  },
-  data: () => ({
-    json_fields: {
-      Name: 'username',
-      Question1: 'answers1'[0],
-      Question2: 'answers1'[1],
-    },
-
-    json_data: [
-      {
-        username: 'Tony Pena',
-        answers1: ['1', '2'],
-        // answers2: '22',
-        // answers3: '33',
-      },
-      // {
-      //   username: 'Thessaloniki',
-      //   answers1: '111',
-      //   answers2: '222',
-      //   answers3: '333',
-      // },
-    ],
-  }),
-  methods:{
-    makeObject = (obj) => {
-      const {username, answers} = obj
-      const flattenObj = 
-    }
-  },
-  computed: {
-    jsf() {
-      return R.map(makeObject, object)
-    },
-  },
-  updated() {
-    console.log('peopleData ', this.peopleData)
+    excellDatas: Object,
+    excellFields: Object,
   },
 }
 </script>
@@ -99,5 +64,12 @@ export default {
   margin: 12px;
   font-size: 26px;
   color: white;
+}
+
+.review-icon-header {
+  width: 100px;
+  justify-content: space-around;
+  display: flex;
+  flex-direction: row;
 }
 </style>

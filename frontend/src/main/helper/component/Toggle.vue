@@ -9,24 +9,23 @@
 </template>
 
 <script>
-  export default {
-    name: 'Toggle',
+export default {
+  name: 'Toggle',
 
-    props:{
-      checked: Boolean
+  props: {
+    checked: Boolean,
+  },
+
+  methods: {
+    onClick() {
+      this.$emit('click')
     },
-
-    methods: {
-      onClick() {
-        this.$emit('click')
-      }
-    }
-  }
+  },
+}
 </script>
 
 <style module>
-
-@import url(https://fonts.googleapis.com/css?family=Roboto:300,500);
+@import url(https://fonts.googleapis.com/css?family=Roboto:300, 500);
 
 .root {
   width: 14px;
@@ -50,8 +49,9 @@
   margin: 16px;
   padding: 16px 10px 16px 44px;
 }
-.switch-label:before, .switch-label:after {
-  content: "";
+.switch-label:before,
+.switch-label:after {
+  content: '';
   position: absolute;
   margin: 0;
   outline: 0;
@@ -66,16 +66,17 @@
   left: 1px;
   width: 34px;
   height: 14px;
-  background-color: #9E9E9E;
+  background-color: #9e9e9e;
   border-radius: 8px;
 }
 .switch-label:after {
   left: 0;
   width: 20px;
   height: 20px;
-  background-color: #FAFAFA;
+  background-color: #fafafa;
   border-radius: 50%;
-  box-shadow: 0 1px 2px 2px rgba(0, 0, 0, 0.14), 0 2px 2px 0 rgba(0, 0, 0, 0.098), 0 1px 5px 0 rgba(0, 0, 0, 0.084);
+  box-shadow: 0 1px 2px 2px rgba(0, 0, 0, 0.14),
+    0 2px 2px 0 rgba(0, 0, 0, 0.098), 0 1px 5px 0 rgba(0, 0, 0, 0.084);
 }
 .switch-label .toggle--on {
   display: none;
@@ -84,10 +85,10 @@
   display: inline-block;
 }
 .switch-input:checked + .switch-label:before {
-  background-color: #A5D6A7;
+  background-color: #a5d6a7;
 }
 .switch-input:checked + .switch-label:after {
-  background-color: #4CAF50;
+  background-color: #4caf50;
   -ms-transform: translate(80%, -50%);
   -webkit-transform: translate(80%, -50%);
   transform: translate(80%, -50%);
@@ -98,5 +99,4 @@
 .switch-input:checked + .switch-label .toggle--off {
   display: none;
 }
-
 </style>
